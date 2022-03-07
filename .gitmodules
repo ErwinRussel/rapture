@@ -1,0 +1,3 @@
+[submodule "criu"]
+	path = criu
+	url = https://github.com/ErwinRussel/criu.git
