@@ -38,6 +38,7 @@ containerd --version
 # -- runc
 echo "___________ RUNC START _____________"
 git clone https://github.com/opencontainers/runc.git /opt/runc
+apt-get install build-essential 
 cd /opt/runc 
 make && make install 
 echo "-- installed version --" # todo make this an aassert
@@ -45,7 +46,7 @@ runc --version
 echo "___________ RUNC END _____________"
 
 # -- criu 
-apt-get install build-essential libprotobuf-dev libprotobuf-c-dev protobuf-c-compiler protobuf-compiler python-protobuf pkg-config python-ipaddress libbsd-dev iproute2 nftables libcap-dev libnet1-dev libnl-3-dev libaio-dev python3-future asciidoc xmlto vim python3-distutils libnftables-dev --no-install-recommends -y 
+apt-get install libprotobuf-dev libprotobuf-c-dev protobuf-c-compiler protobuf-compiler python-protobuf pkg-config python-ipaddress libbsd-dev iproute2 nftables libcap-dev libnet1-dev libnl-3-dev libaio-dev python3-future asciidoc xmlto vim python3-distutils libnftables-dev --no-install-recommends -y 
 git clone https://github.com/checkpoint-restore/criu.git /opt/criu
 cd /opt/criu 
 make clean 
