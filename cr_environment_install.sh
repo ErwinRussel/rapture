@@ -4,9 +4,9 @@ echo "Installing all dependencies for runc, containerd, docker and criu"
 
 # -- apt packages
 apt-get update 
-apt-get install wget git -y
+apt-get install wget git libseccomp-dev -y
 
-# -- runc
+
 # first we must install the latest golang 
 echo "Installing latest golang"
 wget -P /opt/go https://go.dev/dl/go1.17.8.linux-amd64.tar.gz
@@ -14,11 +14,14 @@ cd /opt/go
 tar -C /usr/local -xzf go1.17.8.linux-amd64.tar.gz
 export PATH=$PATH:/usr/local/go/bin
 echo "-- installed version --" # todo make this an aassert
-go version
+go version 
 
+# -- runc
 git clone https://github.com/opencontainers/runc.git /opt/runc
 cd /opt/runc 
 make && make install 
+echo "-- installed version --" # todo make this an aassert
+runc --version 
 
 # -- containerd 
 wget -P /opt/containerd https://github.com/containerd/containerd/releases/download/v1.6.1/cri-containerd-cni-1.6.1-linux-amd64.tar.gz
