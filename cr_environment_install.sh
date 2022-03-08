@@ -2,10 +2,19 @@
 
 echo "Installing all dependencies for runc, containerd, docker and criu"
 
-# -- apt packages
+# -- apt packages (assumes git is installed)
 apt-get update 
-apt-get install wget git libseccomp-dev -y
+apt-get install wget libseccomp-dev -y
 
+# -- docker
+apt-get install ca-certificates curl gnupg lsb-release -y
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+apt-get update 
+apt-get install docker-ce docker-ce-cli -y
+echo "-- installed version --" # todo make this an assert
+docker version 
 
 # first we must install the latest golang 
 echo "Installing latest golang"
@@ -31,15 +40,6 @@ sudo systemctl daemon-reload
 sudo systemctl enable --now containerd
 echo "-- installed version --" # todo make this an assert
 containerd --version
-
-# -- docker
-apt-get install ca-certificates curl gnupg lsb-release -y
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-apt-get update 
-apt-get install docker-ce docker-ce-cli -y
-echo "-- installed version --" # todo make this an assert
-docker version 
 
 # -- criu 
 apt-get install build-essential libprotobuf-dev libprotobuf-c-dev protobuf-c-compiler protobuf-compiler python-protobuf pkg-config python-ipaddress libbsd-dev iproute2 nftables libcap-dev libnet1-dev libnl-3-dev libaio-dev python3-future asciidoc xmlto vim python3-distutils libnftables-dev
