@@ -4,12 +4,12 @@ echo "Installing all dependencies for runc, containerd, docker and criu"
 
 # -- apt packages
 apt-get update 
-apt-get install wget git
+apt-get install wget git -y
 
 # -- runc
 # first we must install the latest golang 
 echo "Installing latest golang"
-wget -O /opt/go https://go.dev/dl/go1.17.8.linux-amd64.tar.gz
+wget -P /opt/go https://go.dev/dl/go1.17.8.linux-amd64.tar.gz
 cd /opt/go
 tar -C /usr/local -xzf go1.17.8.linux-amd64.tar.gz
 export PATH=$PATH:/usr/local/go/bin
@@ -21,7 +21,7 @@ cd /opt/runc
 make && make install 
 
 # -- containerd 
-wget -0 /opt/containerd https://github.com/containerd/containerd/releases/download/v1.6.1/cri-containerd-cni-1.6.1-linux-amd64.tar.gz
+wget -P /opt/containerd https://github.com/containerd/containerd/releases/download/v1.6.1/cri-containerd-cni-1.6.1-linux-amd64.tar.gz
 cd /opt/containerd
 sudo tar --no-overwrite-dir -C / -xzf cri-containerd-cni-1.6.1-linux-amd64.tar.gz
 sudo systemctl daemon-reload
@@ -30,11 +30,11 @@ echo "-- installed version --" # todo make this an assert
 containerd --version
 
 # -- docker
-apt-get install ca-certificates curl gnupg lsb-release
+apt-get install ca-certificates curl gnupg lsb-release -y
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 apt-get update 
-apt-get install docker-ce docker-ce-cli
+apt-get install docker-ce docker-ce-cli -y
 echo "-- installed version --" # todo make this an assert
 docker version 
 
@@ -47,8 +47,9 @@ make clean
 make 
 make install 
 echo "-- installed version --"
-criu version 
+criu version --version
 criu check 
 
+echo "-------"
 echo "INSTALL DONE"
 echo "Reboot to check if it worked"
