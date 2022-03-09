@@ -38,7 +38,7 @@ containerd --version
 # -- runc
 echo "___________ RUNC START _____________"
 git clone https://github.com/opencontainers/runc.git /opt/runc
-apt-get install build-essential 
+apt-get install build-essential pkg-config -y # --no-install-recommends
 cd /opt/runc 
 make && make install 
 echo "-- installed version --" # todo make this an aassert
