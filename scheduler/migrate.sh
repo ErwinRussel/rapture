@@ -1,59 +1,36 @@
-# This file is for migrating a container between two nodes. 
-# The inputs will be:
-# - Source Host Ip
-# - Target Host Ip
-# - Source Host Docker ID 
-# Later on more will be expanded to accomodate things like external 
-# ports and GPU capabilities
-# Remote calls will be done via SSH and File transfer will be done via Rsync
-# TODO: check if rsync is installed on target machine 
-# SRC_IP = arg1
-# TRG_IP = arg2 
-# SRC_CID = arg3 
 
 while getopts u:s:t:c: flag
 do
     case "${flag}" in
-        u) USER=${OPTARG};;
-        s) SRC_IP=${OPTARG};;
         t) TRG_IP=${OPTARG};;
         c) SRC_CID=${OPTARG};;
     esac
 done
 
-echo $USER
 echo $SRC_IP 
 echo $TRG_IP
 echo $SRC_CID
 
-# 0. Get source image from container id
-ssh $USER@$SRC_IP "
-sudo docker inspect $SRC_CID | grep Image
-"
+# -- PRE-MIGRATE ---
+# Get Source image from docker
+SRC_IMG = sudo docker inspect $SRC_CID | grep Image
 
-# 1. Create similar container on Target 
-# TODO: a. create user b. start X server 
-TRG_CID = ssh $USER@$TRG_IP "sudo docker create $SRC_IMG" # save remote docker id to variable
+# The source prepares a container on the target
+TRG_CID = ssh $USER@$TRG_IP "sudo docker create ${SRC_IMG}"
 
-# 1.5 debug logs host1
-ssh $USER@$SRC_IP "
-sudo docker logs $SRC_CID
-"
+# The source opens the nfs file directory for the target in the source checkpoint folder and the target container checkpoint folder
+sudo mkdir /opt/checkpoints/${SRC_CID}
+sudo chown nobody:nogroup /opt/checkpoints/${SRC_CID}
+sudo chmod 777 /opt/checkpoints/${SRC_CID}//opt/checkpoints/${SRC_CID}
+echo "Folder created"
+ssh $USER@$TRG_IP "sudo mount -t nfs -o vers=4 -o resvport ${SRC_IP}:/opt/checkpoints/${SRC_CID}  /var/lib/docker/containers/${TRG_CID}/checkpoints" 
+echo "Container and NFS connection set up"
 
-# 2. Checkpoint container 
-# TODO: stop or dont stop?
-ssh $USER@$SRC_IP "
-docker checkpoint create --checkpoint-dir=/home/opt/container-checkpoints looper checkpoint1 && \
-rsync -P --recursive --rsh=ssh  /home/opt/container-checkpoints/checkpoint1 \ 
-user@host2:/var/lib/docker/containers/$TRG_CID/checkpoints/checkpoint1
-"
+echo "Everything set-up, press key to checkpoint-migrate-restor"
+read r
+# -- MIGRATE -- 
+# Checkpoint container 
+sudo docker checkpoint create $SRC_CID cr1
+ssh $USER@$TRG_IP "sudo docker restore --checkpoint=cr1 ${SRC_IMG}"
 
-# 3.
-ssh $USER@$TRG_IP "
-sudo docker start --checkpoint=checkpoint $TRG_CID
-"
-
-#3.5 debug logs host2
-ssh $USER@$TRG_IP "
-sudo docker logs $TRG_CID
-"
+# sudo apt install nfs-kernel-server nfs-common
