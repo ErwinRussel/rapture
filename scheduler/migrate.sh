@@ -12,10 +12,10 @@ echo $SRC_CID
 
 # -- PRE-MIGRATE ---
 # Get Source image from docker
-SRC_IMG = sudo docker inspect $SRC_CID | grep Image
+SRC_IMG=sudo docker inspect $SRC_CID | grep -oP '(?<='sha256:')(.*)(?='\"')'
 
 # The source prepares a container on the target
-TRG_CID = ssh $USER@$TRG_IP "sudo docker create ${SRC_IMG}"
+TRG_CID=ssh $USER@$TRG_IP "sudo docker create ${SRC_IMG}"
 
 # The source opens the nfs file directory for the target in the source checkpoint folder and the target container checkpoint folder
 sudo mkdir /opt/checkpoints/${SRC_CID}
@@ -33,3 +33,4 @@ sudo docker checkpoint create $SRC_CID cr1
 ssh $USER@$TRG_IP "sudo docker restore --checkpoint=cr1 ${SRC_IMG}"
 
 # sudo apt install nfs-kernel-server nfs-common
+# sudo docker inspect $SRC_ID | grep -o 'sha256:\(.*\)"'
