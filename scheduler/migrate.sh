@@ -7,7 +7,6 @@ do
     esac
 done
 
-echo $SRC_IP 
 echo $TRG_IP
 echo $SRC_CID
 
