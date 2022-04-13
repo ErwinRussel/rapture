@@ -33,3 +33,6 @@ test/gpu/opencl/CMakeFiles/3.22.2/CMakeCCompiler.cmake
 test/gpu/opencl/CMakeCache.txt
 test/gpu/opencl/cmake_install.cmake
 test/gpu/opencl/opencltest
+split-process/venv
+split-process/tracedump
+split-process/stubexample.c
