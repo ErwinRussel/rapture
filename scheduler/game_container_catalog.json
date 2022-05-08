@@ -1,0 +1,48 @@
+[
+  {
+    "name": "ping",
+    "image": "alpine",
+    "command": ["ping", "docker.com"],
+    "requirements": {
+      "cpu_req": 0,
+      "mem_req": 0
+    }
+  },
+  {
+    "name": "Viking_Village_-_Linux",
+    "image": "erwinrussel/vulkanviking",
+    "thumbnail": "https://via.placeholder.com/150",
+    "env": ["DISPLAY=:0"],
+    "requirements": {
+      "cpu_req": 0,
+      "mem_req": 0,
+      "vmem_req": 0,
+      "fps_req": 30
+    },
+    "ports": {
+      "stream": 5004,
+      "input_ws": 5008,
+      "fps_metrics": 6463
+    },
+    "generic_resources": {
+      "gpu": 1
+    },
+    "mounts": ["/tmp/.X11-unix:/tmp/.X11-unix:rw"]
+  },
+  {
+    "name": "Viking_Village_-_Windows",
+    "image": "erwinrussel/dxvkviking",
+        "thumbnail": "https://via.placeholder.com/150",
+    "requirements": {
+      "cpu_req": 0,
+      "mem_req": 0,
+      "vmem_req": 0,
+      "fps_req": 30
+    },
+    "ports": {
+      "stream": 5004,
+      "input_ws": 5008,
+      "fps_metrics": 9877
+    }
+  }
+]
