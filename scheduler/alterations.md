@@ -15,3 +15,9 @@ replace the Execstart line with the following two lines:
 # ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
 ExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:
 ```
+
+We run the stack by executing:
+
+```bash
+docker stack deploy --compose-file monitor.yaml rapture-monitoring
+```
