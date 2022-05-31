@@ -57,5 +57,22 @@ services:
     deploy:
       mode: global
 
+  nvsmi-exporter:
+    image: utkuozdemir/nvidia_gpu_exporter:0.3.0
+    networks:
+      - monitoring
+    ports:
+      - "9835:9835"
+    devices:
+      - '/dev/nvidiactl:/dev/nvidiactl'
+      - '/dev/nvidia0:/dev/nvidia0'
+    volumes:
+      - '/usr/lib/x86_64-linux-gnu/libnvidia-ml.so:/usr/lib/x86_64-linux-gnu/libnvidia-ml.so'
+      - '/usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1:/usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1'
+      - '/usr/bin/nvidia-smi:/usr/bin/nvidia-smi'
+    deploy:
+      mode: global
+
+
 
     
