@@ -108,3 +108,5 @@ class Scheduler:
 
     def get_current_instances(self):
         return len(self.client.services.list(filters=dict(label="TEST")))
+
+

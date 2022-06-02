@@ -26,6 +26,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     software-properties-common \
     git \
     python3 \
+    python3-pip \
     x11-utils \
     x11-xserver-utils \
     gcc-multilib \
@@ -76,43 +77,14 @@ RUN apt-get install unzip && \
     unzip Viking_Windows.zip
 
 # Install libstrangle 
-# RUN git clone https://gitlab.com/torkel104/libstrangle.git /opt/strangle && \
-#     cd /opt/strangle && \
-#     make && \
-#     make install 
-
-# promlibstrangle 
-RUN set -x && \
-    apt-get update && \
-    apt-get install -y apt-utils software-properties-common clang-format && \
-    add-apt-repository ppa:ubuntu-toolchain-r/test && \
-    apt-get update -y && \
-    apt-get install -y curl tar build-essential git pkg-config gdb valgrind gcc-10 libmicrohttpd-dev doxygen graphviz && \
-    rm -f /usr/bin/gcc && \
-    ln -s /usr/bin/gcc-10 /usr/bin/gcc && \
-    curl -sL https://github.com/Kitware/CMake/releases/download/v3.14.5/cmake-3.14.5-Linux-x86_64.tar.gz | tar xzf - -C /opt && \
-    cp /opt/cmake-3.14.5-Linux-x86_64/bin/* /usr/local/bin/ && \
-    cp -R /opt/cmake-3.14.5-Linux-x86_64/share/cmake-3.14 /usr/local/share/ && \
-    curl -sL https://dl.google.com/go/go1.16.7.linux-amd64.tar.gz 2> /dev/null | tar xzf - -C /usr/local && \
-    mkdir -p /gopath/{src,bin} && \
-    printf 'export GOPATH=/gopath\nexport PATH=$PATH:/usr/local/go/bin:/gopath/bin\n' > /root/.bash_profile && \
-    printf '#!/usr/bin/env bash\nsource /root/.bash_profile\nexec /bin/bash $@\n' > /entrypoint && \
-    chmod +x /entrypoint && \
-    GOPATH=/gopath /usr/local/go/bin/go get github.com/prometheus/prom2json && \
-    GOPATH=/gopath /usr/local/go/bin/go install github.com/prometheus/prom2json/cmd/prom2json@latest && \
-    GOPATH=/gopath /usr/local/go/bin/go get github.com/git-chglog/git-chglog && \
-    GOPATH=/gopath /usr/local/go/bin/go install github.com/git-chglog/git-chglog/cmd/git-chglog@latest && \
-    rm -rf /var/lib/apt/lists/*
-
-# Install libstrangle 
-RUN git clone https://github.com/ErwinRussel/libstrangle.git /opt/strangle && \
+RUN echo "rebuild" && \ 
+    echo "rebuild" && \ 
+    git clone https://github.com/ErwinRussel/libstrangle.git /opt/strangle && \
     cd /opt/strangle && \
     make && \
-    make install 
-
-
-# problibstrangle done 
-
+    make install && \
+    pip3 install -r promclient/requirements.txt
+    
 # Create a directory for dumping benchmark and later to mount to
 RUN mkdir /opt/output
 
@@ -121,12 +93,13 @@ WORKDIR /opt/viking/Viking_Windows
 ENV WINEDEBUG=-all
 ENV WINEDLLOVERRIDES="dxgi=n"
 
-CMD if [ $(xrandr | grep \* | cut -d' ' -f4) = ${RESOLUTION} ]; \ 
+CMD nohup bash -c "python3 /opt/strangle/promclient/promclient.py &" && \
+    if [ $(xrandr | grep \* | cut -d' ' -f4) = ${RESOLUTION} ]; \ 
     then echo "Resolution already $RESOLUTION"; \ 
     else xrandr -s ${RESOLUTION}; fi && \
     sleep ${SLEEP} && \
     echo 'Benchmark started' && \
-    strangle ${FPS} ./Viking_Village.x86_64 > /dev/null && \
+    strangle ${FPS} wine Viking_Village.exe > /dev/null && \
     mv ./fps.csv /opt/output/fps.csv && \
     cat benchmark.txt
 
