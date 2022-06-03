@@ -14,10 +14,11 @@
     "thumbnail": "https://via.placeholder.com/150",
     "env": ["DISPLAY=:0"],
     "requirements": {
-      "cpu_req": 0,
+      "cpu_req": 1,
       "mem_req": 0,
       "vmem_req": 0,
-      "fps_req": 30
+      "fps_req": 30,
+      "resolution_req": "1920x1080"
     },
     "ports": {
       "stream": 5004,
