@@ -36,3 +36,9 @@ test/gpu/opencl/opencltest
 split-process/venv
 split-process/tracedump
 split-process/stubexample.c
+scheduler/.idea/vcs.xml
+scheduler/.idea/scheduler.iml
+scheduler/.idea/modules.xml
+scheduler/.idea/misc.xml
+scheduler/.idea/inspectionProfiles/Project_Default.xml
+scheduler/.idea/inspectionProfiles/profiles_settings.xml
