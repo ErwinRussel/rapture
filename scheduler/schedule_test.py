@@ -11,3 +11,6 @@ if __name__ == '__main__':
     game_spec = scheduler.get_game_spec(game_name)
 
     scheduler.schedule_game(game_spec)
+
+    time.sleep(100)
+

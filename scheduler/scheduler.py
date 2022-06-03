@@ -69,7 +69,6 @@ class Scheduler:
         mem_req = game_spec['requirements']['mem_req']
         command = game_spec.get('command', '')
         mounts = game_spec['mounts']
-        generic_resources = game_spec['generic_resources']
 
         node = self.get_node_strategy()
 
@@ -83,7 +82,7 @@ class Scheduler:
         #                     ]
         #                 },
 
-        cont_resources = docker.types.Resources(cpu_reservation=cpu_req, mem_reservation=mem_req, generic_resources=generic_resources)
+        cont_resources = docker.types.Resources(cpu_reservation=cpu_req, mem_reservation=mem_req)
         uuid = name + shortuuid.uuid()
         if (self.strategy != StrategyEnum.spread):
             if node is None:
