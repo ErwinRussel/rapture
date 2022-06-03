@@ -1,0 +1,50 @@
+[
+    {
+        "time": 0,
+        "desired_instances": 1
+    },
+    {
+        "time": 42,
+        "desired_instances": 4
+    },
+    {
+        "time": 77,
+        "desired_instances": 3
+    },
+    {
+        "time": 136,
+        "desired_instances": 1
+    },
+    {
+        "time": 194,
+        "desired_instances": 3
+    },
+    {
+        "time": 249,
+        "desired_instances": 1
+    },
+    {
+        "time": 285,
+        "desired_instances": 3
+    },
+    {
+        "time": 344,
+        "desired_instances": 4
+    },
+    {
+        "time": 393,
+        "desired_instances": 4
+    },
+    {
+        "time": 451,
+        "desired_instances": 2
+    },
+    {
+        "time": 509,
+        "desired_instances": 1
+    },
+    {
+        "time": 561,
+        "desired_instances": 3
+    }
+]
