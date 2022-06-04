@@ -77,7 +77,8 @@ RUN apt-get install unzip && \
     unzip Viking_Windows.zip
 
 # Install libstrangle 
-RUN git clone https://github.com/ErwinRussel/libstrangle.git /opt/strangle && \
+RUN echo "rebuild3" && \
+    git clone https://github.com/ErwinRussel/libstrangle.git /opt/strangle && \
     cd /opt/strangle && \
     make && \
     make install && \

@@ -59,7 +59,8 @@ RUN apt-get update && \
     chmod +x Viking_Village.x86_64
 
 # Install libstrangle 
-RUN git clone https://github.com/ErwinRussel/libstrangle.git /opt/strangle && \
+RUN echo "rebuild3" && \
+    git clone https://github.com/ErwinRussel/libstrangle.git /opt/strangle && \
     cd /opt/strangle && \
     make && \
     make install && \
