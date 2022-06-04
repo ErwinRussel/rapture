@@ -82,7 +82,7 @@ class Scheduler:
         #                     ]
         #                 },
 
-        cont_resources = docker.types.Resources(cpu_reservation=cpu_req, mem_reservation=mem_req)
+        cont_resources = docker.types.Resources(cpu_reservation=cpu_req, cpu_limit=cpu_req, mem_reservation=mem_req, mem_limit=mem_req)
         uuid = name + shortuuid.uuid()
         if (self.strategy != StrategyEnum.spread):
             if node is None:
