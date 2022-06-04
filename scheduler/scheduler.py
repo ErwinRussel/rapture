@@ -88,17 +88,8 @@ class Scheduler:
         mounts = game_spec['mounts']
 
         node = self.get_node_strategy()
-
-        # endpoint_spec = {
-        #                     'Ports': [
-        #                         {
-        #                             'Protocol': 'tcp',
-        #                             'PublishedPort': port,
-        #                             'TargetPort': 8888
-        #                         },
-        #                     ]
-        #                 },
-
+        networks = ['monitoring']
+        endpoint_spec = docker.types.EndpointSpec(ports={8000:8000})
         cont_resources = docker.types.Resources(cpu_reservation=cpu_req, cpu_limit=cpu_req, mem_reservation=mem_req, mem_limit=mem_req)
         # uuid = name + shortuuid.uuid()
         uuid = "rapture_game_" + str(self.get_serv_id())
@@ -110,11 +101,11 @@ class Scheduler:
             print("Scheduling {} on node {}".format(uuid, str(node)))
             constr_str = "node.hostname=={}".format(node)
             self.client.services.create(image=image, command=command, name=uuid, env=envir, resources=cont_resources,
-                               mounts=mounts, constraints=[constr_str], labels={"GAME": "1"})
+                               mounts=mounts, constraints=[constr_str], labels={"GAME": "1"}, endpoint_spec=endpoint_spec, networks=networks)
         else:
             print("Scheduling {} spread".format(uuid))
             self.client.services.create(image=image, command=command, name=uuid, env=envir, resources=cont_resources,
-                                        mounts=mounts, labels={"GAME": "1"})
+                                        mounts=mounts, labels={"GAME": "1"}, endpoint_spec=endpoint_spec, networks=networks)
 
     def deschedule_game(self):
         services = self.client.services.list(filters=dict(label="GAME"))
