@@ -35,12 +35,5 @@ scrape_configs:
       type: 'A'
       port: 9835
   
-  - job_name: game-container
-    static_configs:
-    - targets:
-      - '10.128.0.16:8000'
-      - '10.128.0.16:8001'
-      - '10.128.0.16:8002'
-      - '10.128.0.16:8003'
 
   
