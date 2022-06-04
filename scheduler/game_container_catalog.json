@@ -14,7 +14,7 @@
     "thumbnail": "https://via.placeholder.com/150",
     "env": ["DISPLAY=:0","FPS=30","RESOLUTION=1920x1080","SLEEP=0"],
     "requirements": {
-      "cpu_req": 2000000000,
+      "cpu_req": 1000000000,
       "mem_req": 500000000,
       "vmem_req": 0,
       "fps_req": 30,
