@@ -88,7 +88,7 @@ class Scheduler:
         mounts = game_spec['mounts']
 
         node = self.get_node_strategy()
-        networks = ['monitoring']
+        networks = ['rapture-monitoring_monitoring']
         endpoint_spec = docker.types.EndpointSpec(ports={8000:8000})
         cont_resources = docker.types.Resources(cpu_reservation=cpu_req, cpu_limit=cpu_req, mem_reservation=mem_req, mem_limit=mem_req)
         # uuid = name + shortuuid.uuid()
