@@ -28,12 +28,12 @@ scrape_configs:
       type: 'A'
       port: 9100
 
-   - job_name: nvsmi-exporter
+  - job_name: nvsmi-exporter
     dns_sd_configs:
     - names:
       - 'tasks.nvsmi-exporter'
       type: 'A'
       port: 9835
-  
+
 
   
