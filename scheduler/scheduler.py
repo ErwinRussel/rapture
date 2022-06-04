@@ -22,7 +22,10 @@ class Scheduler:
         self.cleanup_handler()
 
         # Get strategies
-        self.strategies = Strategies(self.client)\
+        self.strategies = Strategies(self.client)
+
+        # Set service id list
+        self.service_ids = [1,2,3,4]
 
     def get_game_spec(self, name):
         game_db = []
@@ -31,6 +34,20 @@ class Scheduler:
 
         game_spec = next(item for item in game_db if item["name"] == name)
         return game_spec
+
+    def get_serv_id(self):
+        if len(self.service_ids) <= 0:
+            print("no service ids left")
+            return random.randrange(10,80)
+        id = self.service_ids[0]
+        self.service_ids.remove(id)
+        return id
+
+    def add_serv_id(self, id):
+        if id in self.service_ids:
+            print("id already in list")
+            return
+        self.service_ids.append(id)
 
     def cleanup_handler(self):
         services = self.client.services.list(filters=dict(label="GAME"))
@@ -83,7 +100,8 @@ class Scheduler:
         #                 },
 
         cont_resources = docker.types.Resources(cpu_reservation=cpu_req, cpu_limit=cpu_req, mem_reservation=mem_req, mem_limit=mem_req)
-        uuid = name + shortuuid.uuid()
+        # uuid = name + shortuuid.uuid()
+        uuid = "rapture_game_" + str(self.get_serv_id())
         if (self.strategy != StrategyEnum.spread):
             if node is None:
                 print("No node to schedule")
@@ -104,6 +122,7 @@ class Scheduler:
         desch_service = services[i]
         print("Removing service: {}".format(desch_service.name))
         desch_service.remove()
+        id = self.add_serv_id(int(desch_service.name[-1]))
 
     def get_current_instances(self):
         return len(self.client.services.list(filters=dict(label="GAME")))
