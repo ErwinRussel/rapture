@@ -12,7 +12,7 @@
     "name": "Viking_Village_-_Linux",
     "image": "erwinrussel/vulkanviking",
     "thumbnail": "https://via.placeholder.com/150",
-    "env": ["DISPLAY=:0"],
+    "env": ["DISPLAY=:0","FPS=30","RESOLUTION=1920x1080","SLEEP=0"],
     "requirements": {
       "cpu_req": 1,
       "mem_req": 0,
@@ -33,7 +33,8 @@
   {
     "name": "Viking_Village_-_Windows",
     "image": "erwinrussel/dxvkviking",
-        "thumbnail": "https://via.placeholder.com/150",
+    "thumbnail": "https://via.placeholder.com/150",
+    "env": ["DISPLAY=:0","FPS=30","RESOLUTION=1920x1080","SLEEP=0"],
     "requirements": {
       "cpu_req": 0,
       "mem_req": 0,

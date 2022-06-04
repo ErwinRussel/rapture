@@ -33,7 +33,7 @@ class Scheduler:
         return game_spec
 
     def cleanup_handler(self):
-        services = self.client.services.list(filters=dict(label="TEST"))
+        services = self.client.services.list(filters=dict(label="GAME"))
         for service in services:
             service.remove()
         print("- all cleaned up!")
@@ -92,20 +92,20 @@ class Scheduler:
             print("Scheduling {} on node {}".format(uuid, str(node)))
             constr_str = "node.hostname=={}".format(node)
             self.client.services.create(image=image, command=command, name=uuid, env=envir, resources=cont_resources,
-                               mounts=mounts, constraints=[constr_str], labels={"TEST": "1"})
+                               mounts=mounts, constraints=[constr_str], labels={"GAME": "1"})
         else:
             print("Scheduling {} spread".format(uuid))
             self.client.services.create(image=image, command=command, name=uuid, env=envir, resources=cont_resources,
-                                        mounts=mounts, labels={"TEST": "1"})
+                                        mounts=mounts, labels={"GAME": "1"})
 
     def deschedule_game(self):
-        services = self.client.services.list(filters=dict(label="TEST"))
+        services = self.client.services.list(filters=dict(label="GAME"))
         i = random.randrange(0, len(services))
         desch_service = services[i]
         print("Removing service: {}".format(desch_service.name))
         desch_service.remove()
 
     def get_current_instances(self):
-        return len(self.client.services.list(filters=dict(label="TEST")))
+        return len(self.client.services.list(filters=dict(label="GAME")))
 
 
