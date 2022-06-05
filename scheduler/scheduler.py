@@ -116,7 +116,7 @@ class Scheduler:
         desch_service = services[i]
         print("Removing service: {}".format(desch_service.name))
         desch_service.remove()
-        id = self.add_serv_id(int(desch_service.name[-1]))
+        # id = self.add_serv_id(int(desch_service.name[-1]))
 
     def get_current_instances(self):
         return len(self.client.services.list(filters=dict(label="GAME")))
