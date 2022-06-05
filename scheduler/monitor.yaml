@@ -73,6 +73,14 @@ services:
       #          kind: 'NVIDIA-GPU'
       #          value: 0
 
-
+  fps-collector:
+    image: erwinrussel/fps_collector:latest
+    networks:
+      - monitoring
+    deploy:
+      mode: replicated
+    ports:
+      - "8000:8000"
+      - "8001:8001"
 
     
