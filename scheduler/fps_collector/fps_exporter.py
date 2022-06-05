@@ -61,10 +61,28 @@ def process(data):
     if free_fps != 0:
         g_free_fps.labels(host_name, container_name).set(free_fps)
 
+def delete_metric(data):
+    host_name = data.get('host_name', '')
+    container_name = data.get('container_name', '')
+    g_sleep_time.remove(host_name, container_name)
+    g_overhead.remove(host_name, container_name)
+    g_target_frame_time.remove(host_name, container_name)
+    g_adjusted_sleep_time.remove(host_name, container_name)
+    g_target_fps.remove(host_name, container_name)
+    g_fps.remove(host_name, container_name)
+    g_achievable_fps.remove(host_name, container_name)
+    g_free_fps.remove(host_name, container_name)
+
 @app.route('/push_metric', methods=['POST'])
 def handle_data():
     data = request.json
     process(data)
+    return "success"
+
+@app.route('/delete_metric', methods=['POST'])
+def delete_data():
+    data = request.json
+    delete_metric(data)
     return "success"
 
 if __name__ == '__main__':
