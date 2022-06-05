@@ -93,7 +93,7 @@ class Scheduler:
         cur_id = self.get_serv_id()
         uuid = "rapture_game_" + str(cur_id)
         dynamic_port = 8000 + cur_id
-        endpoint_spec = docker.types.EndpointSpec(ports={8000:8000})
+        endpoint_spec = docker.types.EndpointSpec(ports={dynamic_port:8000})
         cont_resources = docker.types.Resources(cpu_reservation=cpu_req, cpu_limit=cpu_req, mem_reservation=mem_req, mem_limit=mem_req)
         if (self.strategy != StrategyEnum.spread):
             if node is None:
