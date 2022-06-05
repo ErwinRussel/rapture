@@ -36,12 +36,30 @@ scrape_configs:
       port: 9835
 
 
-  - job_name: rapture_game
+  - job_name: rapture_game_1
     dns_sd_configs:
     - names:
       - 'tasks.rapture_game_1'
-      - 'tasks.rapture_game_2'
-      - 'tasks.rapture_game_3'
-      - 'tasks.rapture_game_4'
       type: 'A'
-      port: 8000
+      port: 8001
+
+  - job_name: rapture_game_2
+    dns_sd_configs:
+      - names:
+          - 'tasks.rapture_game_2'
+        type: 'A'
+        port: 8002
+
+  - job_name: rapture_game_3
+    dns_sd_configs:
+      - names:
+          - 'tasks.rapture_game_3'
+        type: 'A'
+        port: 8003
+
+  - job_name: rapture_game_4
+    dns_sd_configs:
+      - names:
+          - 'tasks.rapture_game_4'
+        type: 'A'
+        port: 8004

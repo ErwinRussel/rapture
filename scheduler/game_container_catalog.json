@@ -23,7 +23,7 @@
     "ports": {
       "stream": 5004,
       "input_ws": 5008,
-      "fps_metrics": 6463
+      "fps_metrics": 8000
     },
     "generic_resources": {
       "gpu": 1
@@ -44,7 +44,7 @@
     "ports": {
       "stream": 5004,
       "input_ws": 5008,
-      "fps_metrics": 9877
+      "fps_metrics": 8000
     }
   }
 ]
