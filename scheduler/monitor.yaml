@@ -22,6 +22,11 @@ services:
       - prometheus-data:/prometheus
     restart: unless-stopped
     command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yml
+    deploy:
+      mode: replicated
+      placement:
+        constraints:
+          - "node.role==manager"
 
   grafana:
     image: grafana/grafana:latest
@@ -32,6 +37,11 @@ services:
     volumes:
       - grafana-data:/var/lib/grafana
     restart: unless-stopped
+    deploy:
+      mode: replicated
+      placement:
+        constraints:
+          - "node.role==manager"
 
   node-exporter:
     image: prom/node-exporter
@@ -41,6 +51,9 @@ services:
       - "9100:9100"
     deploy:
       mode: global
+      placement:
+        constraints:
+          - "node.role==worker"
 
   cadvisor:
     image: google/cadvisor:latest 
@@ -57,15 +70,21 @@ services:
       - /sys:/sys:ro
     deploy:
       mode: global
+      placement:
+        constraints:
+          - "node.role==worker"
 
   nvsmi-exporter:
     image: erwinrussel/nvsmiprom:latest 
     networks:
       - monitoring
-    deploy:
-      mode: global
     ports:
       - "9835:9835"
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - "node.role==worker"
       #resources:
       #  reservations:
       #    generic_resources:
@@ -77,10 +96,13 @@ services:
     image: erwinrussel/fps_collector:latest
     networks:
       - monitoring
-    deploy:
-      mode: replicated
     ports:
       - "8000:8000"
       - "8001:8001"
+    deploy:
+      mode: replicated
+      placement:
+        constraints:
+          - "node.role==manager"
 
     
