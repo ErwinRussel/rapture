@@ -95,6 +95,7 @@ class Scheduler:
         # dynamic_port = 8000 + cur_id
         # endpoint_spec = docker.types.EndpointSpec(ports={dynamic_port:8000})
         endpoint_spec = docker.types.EndpointSpec()
+        gpu_constr_str = "gpu==1"
         cont_resources = docker.types.Resources(cpu_reservation=cpu_req, cpu_limit=cpu_req, mem_reservation=mem_req, mem_limit=mem_req)
         if (self.strategy != StrategyEnum.spread):
             if node is None:
@@ -102,13 +103,13 @@ class Scheduler:
                 return
 
             print("Scheduling {} on node {}".format(uuid, str(node)))
-            constr_str = "node.hostname=={}".format(node)
+            node_constr_str = "node.hostname=={}".format(node)
             self.client.services.create(image=image, command=command, name=uuid, env=envir, resources=cont_resources,
-                               mounts=mounts, constraints=[constr_str], labels={"GAME": "1"}, endpoint_spec=endpoint_spec, networks=networks)
+                               mounts=mounts, constraints=[gpu_constr_str, node_constr_str], labels={"GAME": "1"}, endpoint_spec=endpoint_spec, networks=networks)
         else:
             print("Scheduling {} spread".format(uuid))
             self.client.services.create(image=image, command=command, name=uuid, env=envir, resources=cont_resources,
-                                        mounts=mounts, labels={"GAME": "1"}, endpoint_spec=endpoint_spec, networks=networks)
+                                mounts=mounts, constraints=[gpu_constr_str], labels={"GAME": "1"}, endpoint_spec=endpoint_spec, networks=networks)
 
     def deschedule_game(self):
         services = self.client.services.list(filters=dict(label="GAME"))
