@@ -95,7 +95,7 @@ class Scheduler:
         # dynamic_port = 8000 + cur_id
         # endpoint_spec = docker.types.EndpointSpec(ports={dynamic_port:8000})
         endpoint_spec = docker.types.EndpointSpec()
-        gpu_constr_str = "gpu==1"
+        gpu_constr_str = "gpu-node==1"
         cont_resources = docker.types.Resources(cpu_reservation=cpu_req, cpu_limit=cpu_req, mem_reservation=mem_req, mem_limit=mem_req)
         if (self.strategy != StrategyEnum.spread):
             if node is None:
