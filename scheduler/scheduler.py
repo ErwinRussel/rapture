@@ -88,7 +88,7 @@ class Scheduler:
         mounts = game_spec['mounts']
 
         node = self.get_node_strategy()
-        networks = ['rapture-monitoring_monitoring']
+        networks = ['rapture_monitoring']
         uuid = name + shortuuid.uuid()
         # cur_id = self.get_serv_id()
         # uuid = "rapture_game_" + str(cur_id)
