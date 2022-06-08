@@ -128,7 +128,7 @@ class Scheduler:
             ftime = resources[node]["ftime_available"]
             print("{}:{},{},{},{}".format(node, cpu, mem, vmem, ftime))
 
-    def get_hostname(self, service):
+    def get_hostname_service(self, service):
         for node in self.strategies.node_resource_dict.keys():
             if service in [s for s in self.client.services.list() for _ in s.tasks({'node': node, 'desired-state': 'Running'})]:
                 return node
@@ -139,14 +139,12 @@ class Scheduler:
         i = random.randrange(0, len(services))
         desch_service = services[i]
         print("Removing service: {}".format(desch_service.name))
-        host_name = self.get_hostname(desch_service)
-        print("Removing limitations from {}".format(host_name))
         if self.strategy != StrategyEnum.spread:
+            host_name = self.get_hostname_service(desch_service)
             self.remove_limitations(host_name)
         if DEBUG:
             self.print_resources()
         desch_service.remove()
-        # id = self.add_serv_id(int(desch_service.name[-1]))
 
     # toto: change this to get from the game DB
     def add_limitations(self, host_name):
