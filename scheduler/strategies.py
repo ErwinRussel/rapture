@@ -16,18 +16,16 @@ class Strategies:
     def get_node_resource_dict(self):
         node_dict = {}
         nodes = self.client.nodes.list(filters={'role': 'worker'})
-        print("Get node resource dict")
-        print(nodes)
         for node in nodes:
             name = node.attrs['Description']['Hostname']
             node_entry = {}
             if(node.attrs['Status']['State'] != 'ready'):
-                print("node {} is down", name)
-            node_entry['address'] = node.attrs['Description']['Hostname']
-            node_entry['cpu_resource'] = node.attrs['Description']['Resources']['NanoCPUs']
-            node_entry['mem_resource'] = node.attrs['Description']['Resources']['MemoryBytes']
-            node_entry['vmem_resource'] = 8000000000 # Change into prometheus get
-            node_entry['ftime_resource'] = 1000000000 # Change into this
+                print("node {} is down".format(name))
+            node_entry['address'] = node.attrs['Status']['Addr']
+            node_entry['cpu_available'] = node.attrs['Description']['Resources']['NanoCPUs']
+            node_entry['mem_available'] = node.attrs['Description']['Resources']['MemoryBytes']
+            node_entry['vmem_available'] = 8000000000 # Change into prometheus get
+            node_entry['ftime_available'] = 1000000000 # Change into this
             node_dict[name] = node_entry
 
         return node_dict
