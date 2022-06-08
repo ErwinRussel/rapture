@@ -58,7 +58,7 @@ class Scheduler:
         print("- all cleaned up!")
 
     # Add reserves
-    def get_node_strategy(self, cpu_req, mem_req):
+    def get_node_strategy(self, cpu_req, mem_req, vmem_req, frametime_req):
         if(self.strategy==StrategyEnum.spread):
             print("Executing spread strategy")
             return None
@@ -73,7 +73,7 @@ class Scheduler:
 
         elif(self.strategy==StrategyEnum.rapture):
             print("Executing rapture strategy")
-            return self.strategies.get_schedule_node_rapture(cpu_req,mem_req)
+            return self.strategies.get_schedule_node_rapture(cpu_req, mem_req, vmem_req, frametime_req)
 
         else:
             print("No strategy chose")
@@ -86,10 +86,12 @@ class Scheduler:
         envir = game_spec['env']
         cpu_req = game_spec['requirements']['cpu_req']
         mem_req = game_spec['requirements']['mem_req']
+        vmem_req = game_spec['requirements']['vmem_req']
+        frametime_req = game_spec['requirements']['frametime_req']
         command = game_spec.get('command', '')
         mounts = game_spec['mounts']
 
-        node = self.get_node_strategy(cpu_req, mem_req)
+        node = self.get_node_strategy(cpu_req, mem_req, vmem_req, frametime_req)
         networks = ['rapture_monitoring']
         uuid = name + shortuuid.uuid()
         # cur_id = self.get_serv_id()
@@ -150,14 +152,14 @@ class Scheduler:
     def add_limitations(self, host_name):
         self.strategies.node_resource_dict[host_name]['cpu_available'] -= 1000000000
         self.strategies.node_resource_dict[host_name]['mem_available'] -= 500000000
-        self.strategies.node_resource_dict[host_name]['vmem_available'] -= 200000000
+        self.strategies.node_resource_dict[host_name]['vmem_available'] -= 1500000000
         self.strategies.node_resource_dict[host_name]['ftime_available'] -= 300000000
 
     # todo: change this to get from the game DB
     def remove_limitations(self, host_name):
         self.strategies.node_resource_dict[host_name]['cpu_available'] += 1000000000
         self.strategies.node_resource_dict[host_name]['mem_available'] += 500000000
-        self.strategies.node_resource_dict[host_name]['vmem_available'] += 200000000
+        self.strategies.node_resource_dict[host_name]['vmem_available'] += 1500000000
         self.strategies.node_resource_dict[host_name]['ftime_available'] += 300000000
 
     def get_current_instances(self):
