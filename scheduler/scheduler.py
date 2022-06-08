@@ -129,10 +129,9 @@ class Scheduler:
             print("{}:{},{},{},{}".format(node, cpu, mem, vmem, ftime))
 
     def get_hostname(self, service):
-        print(service.tasks())
         for node in self.client.nodes.list(filters={'role': 'worker'}):
-            print(node.attrs)
-        # container = self.client.containers.get(cid)
+            print(node)
+            print(service.tasks({'node': node}))
         # return container.attrs
 
     def deschedule_game(self):
