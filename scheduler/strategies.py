@@ -21,6 +21,7 @@ class Strategies:
             node_entry = {}
             if(node.attrs['Status']['State'] != 'ready'):
                 print("node {} is down".format(name))
+                continue
             node_entry['address'] = node.attrs['Status']['Addr']
             node_entry['cpu_available'] = node.attrs['Description']['Resources']['NanoCPUs']
             node_entry['mem_available'] = node.attrs['Description']['Resources']['MemoryBytes']
