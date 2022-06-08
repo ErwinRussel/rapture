@@ -121,8 +121,8 @@ class Scheduler:
     def print_resources(self):
         print("#### CURRENT RESOURCES ####")
         print("CPU, RAM, VRAM, FTime")
-        resources = self.strategies.nodes_resources
-        for node in self.strategies.nodes_resources.keys():
+        resources = self.strategies.node_resource_dict
+        for node in resources.keys():
             cpu = resources[node]["cpu_available"]
             mem = resources[node]["mem_available"]
             vmem = resources[node]["vmem_available"]
