@@ -16,6 +16,8 @@ class Strategies:
     def get_node_resource_dict(self):
         node_dict = {}
         nodes = self.client.nodes.list(filters=dict(label="gpu-node"))
+        print("Get node resource dict")
+        print(nodes)
         for node in nodes:
             name = node.attrs['Description']['Hostname']
             node_entry = {}
@@ -59,6 +61,8 @@ class Strategies:
         nodes_resources = self.node_resource_dict
         # todo: is this in correct order
         for node in nodes_resources.keys():
+            print(node)
+            print(nodes_resources[node])
             if(nodes_resources[node]['cpu_available'] < cpu_reserve):
                 continue
             if(nodes_resources[node]['mem_available'] < mem_reserve):
