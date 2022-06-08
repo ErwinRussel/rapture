@@ -16,7 +16,7 @@
     "requirements": {
       "cpu_req": 1000000000,
       "mem_req": 500000000,
-      "vmem_req": 200000000,
+      "vmem_req": 2000000000,
       "fps_req": 30,
       "frametime_req": 300000000,
       "resolution_req": "1920x1080"

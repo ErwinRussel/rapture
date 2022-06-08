@@ -116,18 +116,17 @@ class Scheduler:
 
         if DEBUG:
             self.print_resources()
-            print(self.strategies.node_resource_dict)
 
     def print_resources(self):
         print("#### CURRENT RESOURCES ####")
-        print("CPU, RAM, VRAM, FTime")
+        print("NAME     CPU      RAM     VRAM    FTime")
         resources = self.strategies.node_resource_dict
         for node in resources.keys():
             cpu = resources[node]["cpu_available"]
             mem = resources[node]["mem_available"]
             vmem = resources[node]["vmem_available"]
             ftime = resources[node]["ftime_available"]
-            print("{},{},{},{}".format(cpu, mem, vmem, ftime))
+            print("{}:{},{},{},{}".format(node, cpu, mem, vmem, ftime))
 
     def deschedule_game(self):
         services = self.client.services.list(filters=dict(label="GAME"))
