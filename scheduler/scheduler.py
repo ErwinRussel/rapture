@@ -103,6 +103,7 @@ class Scheduler:
                 return
 
             print("Scheduling {} on node {}".format(uuid, str(node)))
+            self.add_limitations(node)
             node_constr_str = "node.hostname=={}".format(node)
             self.client.services.create(image=image, command=command, name=uuid, env=envir, resources=cont_resources,
                                mounts=mounts, constraints=[gpu_constr_str, node_constr_str], labels={"GAME": "1"}, endpoint_spec=endpoint_spec, networks=networks)

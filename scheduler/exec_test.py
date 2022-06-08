@@ -4,7 +4,7 @@ import json
 
 if __name__ == '__main__':
     # todo: set this with argv
-    scheduler = Scheduler(StrategyEnum.spread)
+    scheduler = Scheduler(StrategyEnum.binpack)
 
     #todo: load game container db
     game_name = "Viking_Village_Linux"
