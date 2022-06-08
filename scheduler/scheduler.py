@@ -131,7 +131,7 @@ class Scheduler:
     def get_hostname(self, service):
         for node in self.strategies.node_resource_dict.keys():
             print(node)
-            print(service.tasks({'node': node}))
+            print(service.tasks({'desired-state': 'Running'}))
         # return container.attrs
 
     def deschedule_game(self):
