@@ -115,7 +115,19 @@ class Scheduler:
                                 mounts=mounts, constraints=[gpu_constr_str], labels={"GAME": "1"}, endpoint_spec=endpoint_spec, networks=networks)
 
         if DEBUG:
+            self.print_resources()
             print(self.strategies.node_resource_dict)
+
+    def print_resources(self):
+        print("#### CURRENT RESOURCES ####")
+        print("CPU, RAM, VRAM, FTime")
+        resources = self.strategies.nodes_resources
+        for node in self.strategies.nodes_resources.keys():
+            cpu = resources[node]["cpu_available"]
+            mem = resources[node]["mem_available"]
+            vmem = resources[node]["vmem_available"]
+            ftime = resources[node]["ftime_available"]
+            print("{},{},{},{}".format(cpu, mem, vmem, ftime))
 
     def deschedule_game(self):
         services = self.client.services.list(filters=dict(label="GAME"))
@@ -125,7 +137,7 @@ class Scheduler:
         # host_name = ""
         # self.remove_limitations(host_name)
         if DEBUG:
-            print(self.strategies.node_resource_dict)
+            self.print_resources()
         desch_service.remove()
         # id = self.add_serv_id(int(desch_service.name[-1]))
 
