@@ -130,10 +130,8 @@ class Scheduler:
 
     def get_hostname(self, service):
         for node in self.strategies.node_resource_dict.keys():
-            print(node)
-            print(service.tasks({'node': node, 'desired-state': 'Running'}))
-            print("Other output")
-            print([s for s in self.client.services.list() for _ in s.tasks({'node': node, 'desired-state': 'Running'})])
+            if service in [s for s in self.client.services.list() for _ in s.tasks({'node': node, 'desired-state': 'Running'})]
+            return node
         # return container.attrs
 
     def deschedule_game(self):
@@ -142,6 +140,7 @@ class Scheduler:
         desch_service = services[i]
         print("Removing service: {}".format(desch_service.name))
         host_name = self.get_hostname(desch_service)
+        print("Removing limitations from {}".format(host_name))
         if self.strategy != StrategyEnum.spread:
             self.remove_limitations(host_name)
         if DEBUG:
