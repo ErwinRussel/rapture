@@ -59,7 +59,7 @@ class Strategies:
         return node_list[i]
 
     def get_schedule_node_rapture(self, cpu_reserve, mem_reserve, vmem_reserve, frametime_reserve):
-        node_dict = self.get_availability_dict()
+        node_dict = self.node_resource_dict
         node_dict_list = []
         # VRAM_free, avg_adj_st = get_gpu_metrics()
         for node in node_dict.keys():
