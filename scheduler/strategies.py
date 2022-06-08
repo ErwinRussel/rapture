@@ -1,6 +1,6 @@
 import docker
 import random
-from rap_sched import get_gpu_metrics
+# from rap_sched import get_gpu_metrics
 
 
 class Strategies:
@@ -13,7 +13,7 @@ class Strategies:
         return [s.attrs['Spec']['Name'] for s in self.client.services.list() for _ in s.tasks({'node': machine_name, 'desired-state': 'Running'})]
 
     def get_availability_dict(self):
-        nodes_dict = {}
+        avail_nodes_dict = {}
         nodes = self.client.nodes.list()
         for node in nodes:
             node_dict ={}
@@ -22,36 +22,37 @@ class Strategies:
             node_dict['mem_resource'] = node.attrs['Description']['Resources']['MemoryBytes'] # ('MemoryBytes')
             node_dict['cpu_available'] = node_dict['cpu_resource']
             node_dict['mem_available'] = node_dict['mem_resource']
-            nodes_dict[host_name] = node_dict
+            avail_nodes_dict[host_name] = node_dict
 
             services = self.client.services.list()
             for service in services:
                 for task in service.tasks({'node': host_name, 'desired-state': 'Running'}):
+                    print(task['Spec']['Resources'])
                     cpu_reserved = task['Spec']['Resources']['Reservations'].get("NanoCPUs", 0)
                     mem_reserved = task['Spec']['Resources']['Reservations'].get("MemoryBytes", 0)
-                    nodes_dict[host_name]['cpu_available'] -= cpu_reserved
-                    nodes_dict[host_name]['cpu_available'] -= mem_reserved
+                    avail_nodes_dict[host_name]['cpu_available'] -= cpu_reserved
+                    avail_nodes_dict[host_name]['cpu_available'] -= mem_reserved
 
-        return nodes_dict
+        return avail_nodes_dict
 
     def get_schedule_node_binpack(self, cpu_reserve, mem_reserve):
-        node_dict = self.get_availability_dict()
+        nodes_dict = self.get_availability_dict()
         # todo: is this in correct order
-        for node in node_dict.keys():
-            if(node_dict[node]['cpu_available'] < cpu_reserve):
+        for node in nodes_dict.keys():
+            if(nodes_dict[node]['cpu_available'] < cpu_reserve):
                 continue
-            if(node_dict[node]['mem_available'] < mem_reserve):
+            if(nodes_dict[node]['mem_available'] < mem_reserve):
                 continue
             return node
         return None
 
     def get_schedule_node_random(self, cpu_reserve, mem_reserve):
-        node_dict = self.get_availability_dict()
+        nodes_dict = self.get_availability_dict()
         node_list = []
-        for node in node_dict.keys():
-            if(node_dict[node]['cpu_available'] < cpu_reserve):
+        for node in nodes_dict.keys():
+            if(nodes_dict[node]['cpu_available'] < cpu_reserve):
                 continue
-            if(node_dict[node]['mem_available'] < mem_reserve):
+            if(nodes_dict[node]['mem_available'] < mem_reserve):
                 continue
             node_list.append(node)
 
@@ -64,16 +65,16 @@ class Strategies:
     def get_schedule_node_rapture(self, cpu_reserve, mem_reserve, vmem_reserve, frametime_reserve):
         node_dict = self.get_availability_dict()
         node_list = []
-        VRAM_free, avg_adj_st = get_gpu_metrics()
+        # VRAM_free, avg_adj_st = get_gpu_metrics()
         for node in node_dict.keys():
             if(node_dict[node]['cpu_available'] < cpu_reserve):
                 continue
             if(node_dict[node]['mem_available'] < mem_reserve):
                 continue
-            if(VRAM_free < vmem_reserve):
-                continue
-            if(avg_adj_st < frametime_reserve):
-                continue
+            # if(VRAM_free < vmem_reserve):
+            #     continue
+            # if(avg_adj_st < frametime_reserve):
+            #     continue
 
             # todo: put this in new dict to sort
             node_list.append(node)
