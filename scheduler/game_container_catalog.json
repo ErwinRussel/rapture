@@ -39,9 +39,9 @@
     "requirements": {
       "cpu_req": 1000000000,
       "mem_req": 1000000000,
-      "vmem_req": 2000,
+      "vmem_req": 1500000000,
       "fps_req": 30,
-      "frametime_req": 500,
+      "frametime_req": 300000000,
       "resolution_req": "1920x1080"
     },
     "ports": {
