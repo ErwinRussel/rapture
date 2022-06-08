@@ -15,12 +15,14 @@ class Strategies:
 
     def get_node_resource_dict(self):
         node_dict = {}
-        nodes = self.client.nodes.list(filters={'status': 'ready', 'role': 'worker'})
+        nodes = self.client.nodes.list(filters={'role': 'worker'})
         print("Get node resource dict")
         print(nodes)
         for node in nodes:
             name = node.attrs['Description']['Hostname']
             node_entry = {}
+            if(node.attrs['Status']['State'] != 'ready'):
+                print("node {} is down", name)
             node_entry['address'] = node.attrs['Description']['Hostname']
             node_entry['cpu_resource'] = node.attrs['Description']['Resources']['NanoCPUs']
             node_entry['mem_resource'] = node.attrs['Description']['Resources']['MemoryBytes']
