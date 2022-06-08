@@ -61,8 +61,6 @@ class Strategies:
         nodes_resources = self.node_resource_dict
         # todo: is this in correct order
         for node in nodes_resources.keys():
-            print(node)
-            print(nodes_resources[node])
             if(nodes_resources[node]['cpu_available'] < cpu_reserve):
                 continue
             if(nodes_resources[node]['mem_available'] < mem_reserve):
