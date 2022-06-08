@@ -30,33 +30,6 @@ class Strategies:
             node_dict[name] = node_entry
 
         return node_dict
-    # def get_availability_dict(self):
-    #     avail_nodes_dict = {}
-    #     nodes = self.client.nodes.list()
-    #     for node in nodes:
-    #         node_dict ={}
-    #         host_name = node.attrs['Description']['Hostname']
-    #         node_dict['cpu_resource'] = node.attrs['Description']['Resources']['NanoCPUs'] # .get('NanoCPUs')
-    #         node_dict['mem_resource'] = node.attrs['Description']['Resources']['MemoryBytes'] # ('MemoryBytes')
-    #         node_dict['cpu_available'] = node_dict['cpu_resource']
-    #         node_dict['mem_available'] = node_dict['mem_resource']
-    #         avail_nodes_dict[host_name] = node_dict
-    #
-    #         services = self.client.services.list()
-    #         for service in services:
-    #             for task in service.tasks({'node': host_name, 'desired-state': 'Running'}):
-    #                 print(task['Spec']['Resources'])
-    #                 reservations = task['Spec']['Resources'].get('Reservations',{})
-    #                 cpu_reserved = reservations.get("NanoCPUs", 0)
-    #                 mem_reserved = reservations.get("MemoryBytes", 0)
-    #                 print("CPU res")
-    #                 print(cpu_reserved)
-    #                 print("Mem res")
-    #                 print(mem_reserved)
-    #                 avail_nodes_dict[host_name]['cpu_available'] -= cpu_reserved
-    #                 avail_nodes_dict[host_name]['cpu_available'] -= mem_reserved
-    #
-    #     return avail_nodes_dict
 
     def get_schedule_node_binpack(self, cpu_reserve, mem_reserve):
         nodes_resources = self.node_resource_dict
@@ -87,28 +60,31 @@ class Strategies:
 
     def get_schedule_node_rapture(self, cpu_reserve, mem_reserve, vmem_reserve, frametime_reserve):
         node_dict = self.get_availability_dict()
-        node_list = []
+        node_dict_list = []
         # VRAM_free, avg_adj_st = get_gpu_metrics()
         for node in node_dict.keys():
             if(node_dict[node]['cpu_available'] < cpu_reserve):
                 continue
             if(node_dict[node]['mem_available'] < mem_reserve):
                 continue
-            # if(VRAM_free < vmem_reserve):
-            #     continue
-            # if(avg_adj_st < frametime_reserve):
-            #     continue
+            if(node_dict[node]['vmem_available'] < vmem_reserve):
+                continue
+            if(node_dict[node]['ftime_available'] < frametime_reserve):
+                continue
+            entry = node_dict[node]
+            entry['name'] = node
+            node_dict_list.append(node)
 
-            # todo: put this in new dict to sort
-            node_list.append(node)
+        n = len(node_dict_list)
+        if n == 0:
+            return None
 
+        sort1 = sorted(node_dict_list, key=lambda d: d['mem_available'])
+        sort2 = sorted(sort1, key=lambda d: d['vmem_available'])
+        sort3 = sorted(sort2, key=lambda d: d['cpu_available'])
+        sort4 = sorted(sort3, key=lambda d: d['ftime_available'])
 
-        # todo: sort by cpu
-        # todo: sort by mem
-        # todo: sort by vmem
-        # todo: sort by aast
-
-        return node
+        return sort4[0]['name']
 
 # if __name__ == '__main__':
 #     CPU_RESERVE = 0
