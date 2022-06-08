@@ -8,56 +8,71 @@ class Strategies:
         super().__init__()
 
         self.client = client
+        self.node_resource_dict = self.get_node_resource_dict()
 
     def dockerNodePs(self, machine_name):
         return [s.attrs['Spec']['Name'] for s in self.client.services.list() for _ in s.tasks({'node': machine_name, 'desired-state': 'Running'})]
 
-    def get_availability_dict(self):
-        avail_nodes_dict = {}
-        nodes = self.client.nodes.list()
+    def get_node_resource_dict(self):
+        node_dict = {}
+        nodes = self.client.nodes.list(filters=dict(label="gpu-node"))
         for node in nodes:
-            node_dict ={}
-            host_name = node.attrs['Description']['Hostname']
-            node_dict['cpu_resource'] = node.attrs['Description']['Resources']['NanoCPUs'] # .get('NanoCPUs')
-            node_dict['mem_resource'] = node.attrs['Description']['Resources']['MemoryBytes'] # ('MemoryBytes')
-            node_dict['cpu_available'] = node_dict['cpu_resource']
-            node_dict['mem_available'] = node_dict['mem_resource']
-            avail_nodes_dict[host_name] = node_dict
+            name = node.attrs['Description']['Hostname']
+            node_entry = {}
+            node_entry['address'] = node.attrs['Description']['Hostname']
+            node_entry['cpu_resource'] = node.attrs['Description']['Resources']['NanoCPUs']
+            node_entry['mem_resource'] = node.attrs['Description']['Resources']['MemoryBytes']
+            node_entry['vmem_resource'] = 8000000000 # Change into prometheus get
+            node_entry['ftime_resource'] = 1000000000 # Change into this
+            node_dict[name] = node_entry
 
-            services = self.client.services.list()
-            for service in services:
-                for task in service.tasks({'node': host_name, 'desired-state': 'Running'}):
-                    print(task['Spec']['Resources'])
-                    reservations = task['Spec']['Resources'].get('Reservations',{})
-                    cpu_reserved = reservations.get("NanoCPUs", 0)
-                    mem_reserved = reservations.get("MemoryBytes", 0)
-                    print("CPU res")
-                    print(cpu_reserved)
-                    print("Mem res")
-                    print(mem_reserved)
-                    avail_nodes_dict[host_name]['cpu_available'] -= cpu_reserved
-                    avail_nodes_dict[host_name]['cpu_available'] -= mem_reserved
-
-        return avail_nodes_dict
+        return node_dict
+    # def get_availability_dict(self):
+    #     avail_nodes_dict = {}
+    #     nodes = self.client.nodes.list()
+    #     for node in nodes:
+    #         node_dict ={}
+    #         host_name = node.attrs['Description']['Hostname']
+    #         node_dict['cpu_resource'] = node.attrs['Description']['Resources']['NanoCPUs'] # .get('NanoCPUs')
+    #         node_dict['mem_resource'] = node.attrs['Description']['Resources']['MemoryBytes'] # ('MemoryBytes')
+    #         node_dict['cpu_available'] = node_dict['cpu_resource']
+    #         node_dict['mem_available'] = node_dict['mem_resource']
+    #         avail_nodes_dict[host_name] = node_dict
+    #
+    #         services = self.client.services.list()
+    #         for service in services:
+    #             for task in service.tasks({'node': host_name, 'desired-state': 'Running'}):
+    #                 print(task['Spec']['Resources'])
+    #                 reservations = task['Spec']['Resources'].get('Reservations',{})
+    #                 cpu_reserved = reservations.get("NanoCPUs", 0)
+    #                 mem_reserved = reservations.get("MemoryBytes", 0)
+    #                 print("CPU res")
+    #                 print(cpu_reserved)
+    #                 print("Mem res")
+    #                 print(mem_reserved)
+    #                 avail_nodes_dict[host_name]['cpu_available'] -= cpu_reserved
+    #                 avail_nodes_dict[host_name]['cpu_available'] -= mem_reserved
+    #
+    #     return avail_nodes_dict
 
     def get_schedule_node_binpack(self, cpu_reserve, mem_reserve):
-        nodes_dict = self.get_availability_dict()
+        nodes_resources = self.node_resource_dict
         # todo: is this in correct order
-        for node in nodes_dict.keys():
-            if(nodes_dict[node]['cpu_available'] < cpu_reserve):
+        for node in nodes_resources.keys():
+            if(nodes_resources[node]['cpu_available'] < cpu_reserve):
                 continue
-            if(nodes_dict[node]['mem_available'] < mem_reserve):
+            if(nodes_resources[node]['mem_available'] < mem_reserve):
                 continue
             return node
         return None
 
     def get_schedule_node_random(self, cpu_reserve, mem_reserve):
-        nodes_dict = self.get_availability_dict()
+        nodes_resources = self.node_resource_dict
         node_list = []
-        for node in nodes_dict.keys():
-            if(nodes_dict[node]['cpu_available'] < cpu_reserve):
+        for node in nodes_resources.keys():
+            if(nodes_resources[node]['cpu_available'] < cpu_reserve):
                 continue
-            if(nodes_dict[node]['mem_available'] < mem_reserve):
+            if(nodes_resources[node]['mem_available'] < mem_reserve):
                 continue
             node_list.append(node)
 

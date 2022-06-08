@@ -116,8 +116,24 @@ class Scheduler:
         i = random.randrange(0, len(services))
         desch_service = services[i]
         print("Removing service: {}".format(desch_service.name))
+        host_name = ""
+        self.remove_limitations(host_name)
         desch_service.remove()
         # id = self.add_serv_id(int(desch_service.name[-1]))
+
+    # toto: change this to get from the game DB
+    def add_limitations(self, host_name):
+        self.strategies.node_resource_dict[host_name]['cpu_resource'] -= 1000000000
+        self.strategies.node_resource_dict[host_name]['mem_resource'] -= 500000000
+        self.strategies.node_resource_dict[host_name]['vmem_resource'] -= 200000000
+        self.strategies.node_resource_dict[host_name]['ftime_resource'] -= 300000000
+
+    # todo: change this to get from the game DB
+    def remove_limitations(self, host_name):
+        self.strategies.node_resource_dict[host_name]['cpu_resource'] += 1000000000
+        self.strategies.node_resource_dict[host_name]['mem_resource'] += 500000000
+        self.strategies.node_resource_dict[host_name]['vmem_resource'] += 200000000
+        self.strategies.node_resource_dict[host_name]['ftime_resource'] += 300000000
 
     def get_current_instances(self):
         return len(self.client.services.list(filters=dict(label="GAME")))
