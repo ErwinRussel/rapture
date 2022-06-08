@@ -15,7 +15,7 @@ class Strategies:
 
     def get_node_resource_dict(self):
         node_dict = {}
-        nodes = self.client.nodes.list(filters={'role': 'worker'})
+        nodes = self.client.nodes.list(filters={'status': 'ready'})
         print("Get node resource dict")
         print(nodes)
         for node in nodes:
