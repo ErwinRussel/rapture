@@ -15,7 +15,7 @@ class Strategies:
 
     def get_node_resource_dict(self):
         node_dict = {}
-        nodes = self.client.nodes.list(filters=dict(label="gpu-node"))
+        nodes = self.client.nodes.list(filters={'gpu-node': '1'})
         print("Get node resource dict")
         print(nodes)
         for node in nodes:
