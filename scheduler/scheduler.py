@@ -128,13 +128,20 @@ class Scheduler:
             ftime = resources[node]["ftime_available"]
             print("{}:{},{},{},{}".format(node, cpu, mem, vmem, ftime))
 
+    def get_hostname(self, service):
+        print(service.tasks)
+        for node in self.client.nodes.list(filters={'role': 'worker'})
+            print(node.attrs)
+        # container = self.client.containers.get(cid)
+        # return container.attrs
+
     def deschedule_game(self):
         services = self.client.services.list(filters=dict(label="GAME"))
         i = random.randrange(0, len(services))
         desch_service = services[i]
         print("Removing service: {}".format(desch_service.name))
-        # host_name = ""
-        # self.remove_limitations(host_name)
+        host_name = self.get_hostname(desch_service)
+        self.remove_limitations(host_name)
         if DEBUG:
             self.print_resources()
         desch_service.remove()
