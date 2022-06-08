@@ -28,8 +28,9 @@ class Strategies:
             for service in services:
                 for task in service.tasks({'node': host_name, 'desired-state': 'Running'}):
                     print(task['Spec']['Resources'])
-                    cpu_reserved = task['Spec']['Resources'].get('Reservations',0).get("NanoCPUs", 0)
-                    mem_reserved = task['Spec']['Resources'].get('Reservations',0).get("MemoryBytes", 0)
+                    reservations = task['Spec']['Resources'].get('Reservations',{})
+                    cpu_reserved = reservations.get("NanoCPUs", 0)
+                    mem_reserved = reservations.get("MemoryBytes", 0)
                     print("CPU res")
                     print(cpu_reserved)
                     print("Mem res")
