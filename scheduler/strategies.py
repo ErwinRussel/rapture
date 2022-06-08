@@ -73,7 +73,7 @@ class Strategies:
                 continue
             entry = node_dict[node]
             entry['name'] = node
-            node_dict_list.append(node)
+            node_dict_list.append(entry)
 
         n = len(node_dict_list)
         if n == 0:
