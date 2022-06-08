@@ -130,7 +130,7 @@ class Scheduler:
 
     def get_hostname(self, service):
         print(service.tasks)
-        for node in self.client.nodes.list(filters={'role': 'worker'})
+        for node in self.client.nodes.list(filters={'role': 'worker'}):
             print(node.attrs)
         # container = self.client.containers.get(cid)
         # return container.attrs
