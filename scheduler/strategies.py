@@ -79,6 +79,9 @@ class Strategies:
         if n == 0:
             return None
 
+        if DEBUG:
+            print(node_dict_list)
+            
         sort1 = sorted(node_dict_list, key=lambda d: d['mem_available'])
         sort2 = sorted(sort1, key=lambda d: d['vmem_available'])
         sort3 = sorted(sort2, key=lambda d: d['cpu_available'])
