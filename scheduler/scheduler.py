@@ -5,6 +5,8 @@ import atexit
 import json
 from strategies import Strategies
 
+DEBUG = True
+
 class StrategyEnum:
     spread = 1
     binpack = 2
@@ -112,13 +114,18 @@ class Scheduler:
             self.client.services.create(image=image, command=command, name=uuid, env=envir, resources=cont_resources,
                                 mounts=mounts, constraints=[gpu_constr_str], labels={"GAME": "1"}, endpoint_spec=endpoint_spec, networks=networks)
 
+        if DEBUG:
+            print(self.strategies.node_resource_dict)
+
     def deschedule_game(self):
         services = self.client.services.list(filters=dict(label="GAME"))
         i = random.randrange(0, len(services))
         desch_service = services[i]
         print("Removing service: {}".format(desch_service.name))
-        host_name = ""
-        self.remove_limitations(host_name)
+        # host_name = ""
+        # self.remove_limitations(host_name)
+        if DEBUG:
+            print(self.strategies.node_resource_dict)
         desch_service.remove()
         # id = self.add_serv_id(int(desch_service.name[-1]))
 
