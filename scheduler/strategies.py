@@ -1,5 +1,6 @@
 import docker
 import random
+from rap_sched import get_gpu_metrics
 
 
 class Strategies:
@@ -45,7 +46,6 @@ class Strategies:
         return None
 
     def get_schedule_node_random(self, cpu_reserve, mem_reserve):
-        # todo: get the availability of nodes
         node_dict = self.get_availability_dict()
         node_list = []
         for node in node_dict.keys():
@@ -61,32 +61,30 @@ class Strategies:
         i = random.randrange(0,n)
         return node_list[i]
 
-    def get_schedule_node_rapture(self, cpu_reserve, mem_reserve):
-        # get all nodes
+    def get_schedule_node_rapture(self, cpu_reserve, mem_reserve, vmem_reserve, frametime_reserve):
         node_dict = self.get_availability_dict()
-        # todo: filter all nodes
+        node_list = []
+        VRAM_free, avg_adj_st = get_gpu_metrics()
+        for node in node_dict.keys():
+            if(node_dict[node]['cpu_available'] < cpu_reserve):
+                continue
+            if(node_dict[node]['mem_available'] < mem_reserve):
+                continue
+            if(VRAM_free < vmem_reserve):
+                continue
+            if(avg_adj_st < frametime_reserve):
+                continue
 
-        # for every node remove with no CPU left
-
-        # for every node remove with no mem left
-
-        # for every node get NVSMI --> remove with no VRAM left
-        # my_label_config = {'cluster': 'my_cluster_id', 'label_2': 'label_2_value'}
-        # prom.get_current_metric_value(metric_name='up', label_config=my_label_config)
-        #
-        # # Here, we are fetching the values of a particular metric name
-        # prom.custom_query(query="prometheus_http_requests_total")
-
-        # for every node get framesleep expose --> remove with no framesleep / fps left
-
-        # todo: choose the node that is most occupied
-        # to do that we need the node with 1. sort: tightest VRAM 2. sort: the tightest framesleep
-        # thus we need {node{VRAM_left= },{FPS_left= }.
-        # We can do this with viking village on Vulkan and DXVK.
+            # todo: put this in new dict to sort
+            node_list.append(node)
 
 
-# Todo: with own algorithm, choose the most full node
-# Todo: Binpack: expose nvsmi and framesleep
+        # todo: sort by cpu
+        # todo: sort by mem
+        # todo: sort by vmem
+        # todo: sort by aast
+
+        return node
 
 # if __name__ == '__main__':
 #     CPU_RESERVE = 0

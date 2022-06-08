@@ -56,22 +56,22 @@ class Scheduler:
         print("- all cleaned up!")
 
     # Add reserves
-    def get_node_strategy(self):
+    def get_node_strategy(self, cpu_req, mem_req):
         if(self.strategy==StrategyEnum.spread):
             print("Executing spread strategy")
             return None
 
         elif(self.strategy==StrategyEnum.binpack):
             print("Executing binpack strategy")
-            return self.strategies.get_schedule_node_binpack(0,0)
+            return self.strategies.get_schedule_node_binpack(cpu_req,mem_req)
 
         elif(self.strategy==StrategyEnum.random):
             print("Executing random strategy")
-            return self.strategies.get_schedule_node_random(0,0)
+            return self.strategies.get_schedule_node_random(cpu_req,mem_req)
 
         elif(self.strategy==StrategyEnum.rapture):
             print("Executing rapture strategy")
-            return self.strategies.get_schedule_node_rapture(0,0)
+            return self.strategies.get_schedule_node_rapture(cpu_req,mem_req)
 
         else:
             print("No strategy chose")
@@ -87,7 +87,7 @@ class Scheduler:
         command = game_spec.get('command', '')
         mounts = game_spec['mounts']
 
-        node = self.get_node_strategy()
+        node = self.get_node_strategy(cpu_req, mem_req)
         networks = ['rapture_monitoring']
         uuid = name + shortuuid.uuid()
         # cur_id = self.get_serv_id()
