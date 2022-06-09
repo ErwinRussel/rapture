@@ -5,7 +5,7 @@ import atexit
 import json
 from strategies import Strategies
 
-DEBUG = True
+DEBUG = False
 
 class StrategyEnum:
     spread = 1
