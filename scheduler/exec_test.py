@@ -4,7 +4,7 @@ import json
 
 if __name__ == '__main__':
     # todo: set this with argv
-    scheduler = Scheduler(StrategyEnum.binpack)
+    scheduler = Scheduler(StrategyEnum.spread)
 
     #todo: load game container db
     game_name = "Viking_Village_Linux"
@@ -14,7 +14,7 @@ if __name__ == '__main__':
     scheduler.cleanup_handler()
 
     otest = []
-    with open('test_onenode.json', 'r') as j:
+    with open('test_random_1_9.json', 'r') as j:
         test = json.loads(j.read())
         otest = sorted(test, key = lambda i: i['time'])
 
