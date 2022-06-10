@@ -14,7 +14,7 @@ if __name__ == '__main__':
     scheduler.cleanup_handler()
 
     otest = []
-    with open('test_random_1_9.json', 'r') as j:
+    with open('test_random_1_6.json', 'r') as j:
         test = json.loads(j.read())
         otest = sorted(test, key = lambda i: i['time'])
 
