@@ -25,35 +25,35 @@
     },
     {
         "time": 180,
-        "desired_instances": 7
-    },
-    {
-        "time": 210,
-        "desired_instances": 8
-    },
-    {
-        "time": 240,
-        "desired_instances": 9
-    },
-    {
-        "time": 270,
-        "desired_instances": 8
-    },
-    {
-        "time": 300,
-        "desired_instances": 7
-    },
-    {
-        "time": 330,
-        "desired_instances": 6
-    },
-    {
-        "time": 360,
         "desired_instances": 5
     },
     {
-        "time": 390,
+        "time": 210,
         "desired_instances": 4
+    },
+    {
+        "time": 240,
+        "desired_instances": 3
+    },
+    {
+        "time": 270,
+        "desired_instances": 2
+    },
+    {
+        "time": 300,
+        "desired_instances": 1
+    },
+    {
+        "time": 330,
+        "desired_instances": 0
+    },
+    {
+        "time": 360,
+        "desired_instances": 1
+    },
+    {
+        "time": 390,
+        "desired_instances": 2
     },
     {
         "time": 420,
@@ -61,23 +61,23 @@
     },
     {
         "time": 450,
-        "desired_instances": 2
+        "desired_instances": 4
     },
     {
         "time": 480,
-        "desired_instances": 1
+        "desired_instances": 5
     },
     {
         "time": 510,
-        "desired_instances": 0
+        "desired_instances": 6
     },
     {
         "time": 540,
-        "desired_instances": 1
+        "desired_instances": 5
     },
     {
         "time": 570,
-        "desired_instances": 2
+        "desired_instances": 4
     },
     {
         "time": 600,
@@ -85,35 +85,35 @@
     },
     {
         "time": 630,
-        "desired_instances": 4
+        "desired_instances": 2
     },
     {
         "time": 660,
-        "desired_instances": 5
+        "desired_instances": 1
     },
     {
         "time": 690,
-        "desired_instances": 6
+        "desired_instances": 0
     },
     {
         "time": 720,
-        "desired_instances": 7
+        "desired_instances": 1
     },
     {
         "time": 750,
-        "desired_instances": 8
+        "desired_instances": 2
     },
     {
         "time": 780,
-        "desired_instances": 9
+        "desired_instances": 3
     },
     {
         "time": 810,
-        "desired_instances": 8
+        "desired_instances": 4
     },
     {
         "time": 840,
-        "desired_instances": 7
+        "desired_instances": 5
     },
     {
         "time": 870,

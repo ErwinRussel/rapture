@@ -5,7 +5,7 @@ from itertools import cycle
 
 # Constants
 MIN_INSTANCES = 0
-MAX_INSTANCES = 9
+MAX_INSTANCES = 6
 TEST_DURATION_SEC = 1200 # 20 mins
 MIN_PER = 30
 MAX_PER = 30
