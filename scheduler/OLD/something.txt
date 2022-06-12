@@ -1,0 +1,27 @@
+ # def get_availability_dict(self):
+    #     avail_nodes_dict = {}
+    #     nodes = self.client.nodes.list()
+    #     for node in nodes:
+    #         node_dict ={}
+    #         host_name = node.attrs['Description']['Hostname']
+    #         node_dict['cpu_resource'] = node.attrs['Description']['Resources']['NanoCPUs'] # .get('NanoCPUs')
+    #         node_dict['mem_resource'] = node.attrs['Description']['Resources']['MemoryBytes'] # ('MemoryBytes')
+    #         node_dict['cpu_available'] = node_dict['cpu_resource']
+    #         node_dict['mem_available'] = node_dict['mem_resource']
+    #         avail_nodes_dict[host_name] = node_dict
+    #
+    #         services = self.client.services.list()
+    #         for service in services:
+    #             for task in service.tasks({'node': host_name, 'desired-state': 'Running'}):
+    #                 print(task['Spec']['Resources'])
+    #                 reservations = task['Spec']['Resources'].get('Reservations',{})
+    #                 cpu_reserved = reservations.get("NanoCPUs", 0)
+    #                 mem_reserved = reservations.get("MemoryBytes", 0)
+    #                 print("CPU res")
+    #                 print(cpu_reserved)
+    #                 print("Mem res")
+    #                 print(mem_reserved)
+    #                 avail_nodes_dict[host_name]['cpu_available'] -= cpu_reserved
+    #                 avail_nodes_dict[host_name]['cpu_available'] -= mem_reserved
+    #
+    #     return avail_nodes_dict

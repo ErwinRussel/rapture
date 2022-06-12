@@ -193,4 +193,4 @@ scheduler/experiment_data/random_1_6/binpack/Min_FPS_node.json
 scheduler/experiment_data/random_1_6/binpack/GPU_utl_node.json
 scheduler/experiment_data/random_1_6/binpack/FPS_cont.json
 scheduler/experiment_data/random_1_6/binpack/CPU_utl_node.json
-scheduler/experiment_data/random_1_6/binpack/Avg_FPS_node.json
+scheduler/experiment_data/*

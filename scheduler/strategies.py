@@ -27,6 +27,11 @@ class Strategies:
             node_entry['mem_available'] = node.attrs['Description']['Resources']['MemoryBytes']
             node_entry['vmem_available'] = 8000000000
             node_entry['ftime_available'] = 1000000000 # Change into this
+            node_entry['cpu_total'] = node_entry['cpu_available']
+            node_entry['mem_total'] = node_entry['mem_available']
+            node_entry['vmem_total'] = node_entry['vmem_available']
+            node_entry['ftime_total'] = node_entry['ftime_available']
+
             node_dict[name] = node_entry
 
         return node_dict

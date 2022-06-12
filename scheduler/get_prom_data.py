@@ -3,6 +3,7 @@
 from prometheus_api_client import PrometheusConnect, MetricsList, Metric, MetricSnapshotDataFrame, MetricRangeDataFrame
 from prometheus_api_client.utils import parse_datetime
 from datetime import timedelta
+import json
 
 def scrape_data(prometheus_host_ip, test, strategy):
     prom = PrometheusConnect(url = "http://" + prometheus_host_ip + ":9090", disable_ssl=True)
@@ -12,7 +13,7 @@ def scrape_data(prometheus_host_ip, test, strategy):
 
     metric_query_dict = {
         "FPS_cont": "fps",
-        "Num_utilized_nodes": "count(nvidia_smi_utilization_gpu_ratio > 0.1) OR on() vector(0)",
+        "Num_utilized_nodes": "count(sum by(instance) (nvidia_smi_memory_used_bytes/nvidia_smi_memory_total_bytes) > 0.14) OR on() vector(0)",
         "Num_game_instances_node": "count by(instance) (container_tasks_state{image=\"erwinrussel/vulkanviking:experiment\", state=\"running\"})",
         "Num_violating_cont_node": "count by(hostname) (fps < 25)",
         "CPU_utl_node": "sum by(instance) (rate(node_cpu_seconds_total{mode!=\"idle\"}[1m]))/4",
@@ -38,9 +39,10 @@ def scrape_data(prometheus_host_ip, test, strategy):
         # metric_df = MetricRangeDataFrame(metric_data)
 
         with open("experiment_data/" + test + "/" + strategy + "/" + metric + ".json", "w") as f:
-            f.write(str(metric_data))
+            json.dump(metric_data, f)
+            # f.write(str(metric_data))
 
         # metric_df.to_csv("experiment_data/" + test + "/" + metric + ".csv")
 
 
-scrape_data("", "random_1_9", "spread")
+# scrape_data("35.224.120.221", "sine_0_6", "rapture")
