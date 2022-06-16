@@ -9,7 +9,7 @@
     },
     {
         "time": 40,
-        "desired_instances": 4
+        "desired_instances": 6
     },
     {
         "time": 60,
@@ -21,7 +21,7 @@
     },
     {
         "time": 100,
-        "desired_instances": 2
+        "desired_instances": 3
     },
     {
         "time": 120,
