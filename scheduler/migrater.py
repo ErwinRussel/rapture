@@ -16,22 +16,54 @@ class Migrater:
         score_list = []
         for node in node_dict.keys():
             score = 0
-            score = max(score, node_dict[node]['cpu_available']/node_dict[node]['cpu_total'])
-            score = max(score, node_dict[node]['mem_available']/node_dict[node]['mem_total'])
-            score = max(score, node_dict[node]['vmem_available']/node_dict[node]['vmem_total'])
-            score = max(score, node_dict[node]['ftime_available']/node_dict[node]['ftime_total'])
+            score = max(score, (node_dict[node]['cpu_total'] - node_dict[node]['cpu_available']) / node_dict[node]['cpu_total'])
+            score = max(score, (node_dict[node]['mem_total'] - node_dict[node]['mem_available']) / node_dict[node]['mem_total'])
+            score = max(score, (node_dict[node]['vmem_total'] - node_dict[node]['vmem_available']) / node_dict[node]['vmem_total'])
+            score = max(score, (node_dict[node]['ftime_total'] - node_dict[node]['ftime_available']) / node_dict[node]['ftime_total'])
+            # If score is 0, all is available, the node is not utilized.
+            if score < 1:
+                continue
 
-            # todo: do not append when utilization = 0
             score_list.append(score)
+
+        # Return 1 if only one node
+        if len(score_list) <= 1:
+            return 1
 
         return sum(score_list) / len(score_list)
 
+    def get_evac_node(self):
+        node_dict = self.node_resource_dict
+
+        node_dict_list = []
+        for node in node_dict.keys():
+            if(node_dict[node]['cpu_available'] == node_dict[node]['cpu_total']):
+                continue
+            if(node_dict[node]['mem_available'] == node_dict[node]['mem_total']):
+                continue
+            if(node_dict[node]['vmem_available'] == node_dict[node]['vmem_total']):
+                continue
+            if(node_dict[node]['ftime_available'] == node_dict[node]['ftime_total']):
+                continue
+            entry = node_dict[node]
+            entry['name'] = node
+            node_dict_list.append(entry)
+
+        n = len(node_dict_list)
+        if n == 0:
+            return None
+
+        sort1 = sorted(node_dict_list, key=lambda d: d['mem_available'], reverse=True)
+        sort2 = sorted(sort1, key=lambda d: d['vmem_available'], reverse=True)
+        sort3 = sorted(sort2, key=lambda d: d['cpu_available'], reverse=True)
+        sort4 = sorted(sort3, key=lambda d: d['ftime_available'], reverse=True)
+
+        return sort4[0]['name']
+
     def check_migrate(self):
         if self.get_util_score() < self.alpha:
+            evac_node = self.get_evac_node()
             self.migrate(evac_node)
-
-
-
 
     # todo: migrating sequence
     def migrate(self, evac_node):
@@ -44,7 +76,7 @@ class Migrater:
 
     def schedulerestore(self, service):
         # todo: add env variables for
-        envir = ["RESTORE=TRUE"]
+        # envir = ["ATL_RESTORE=1"]
         print("Restoring service: {}".format(service.name))
         name = game_spec['name']
         image = game_spec['image']
@@ -68,7 +100,7 @@ class Migrater:
             return
 
         print("Scheduling {} on node {}".format(uuid, str(node)))
-        self.add_limitations(node)
+        self.scheduler.add_limitations(node)
         node_constr_str = "node.hostname=={}".format(node)
         self.client.services.create(image=image, command=command, name=uuid, env=envir, resources=cont_resources,
                                     mounts=mounts, constraints=[gpu_constr_str, node_constr_str],
@@ -78,7 +110,11 @@ class Migrater:
 
     def deschedulecheckpoint(self, desch_service):
         # todo: add exec command to checkpoint and write to file
-        print("Checkpointing service: {}".format(desch_service.name))
+        print("CHECKPOINTING NOT IMPLEMENTED")
+        # print("Checkpointing service: {}".format(desch_service.name))
+        # container = None
+        # command = ['sh checkpoint.sh']
+        # container.exec_run(command,detach=True)
 
         # todo: remove
         print("Evacuating service: {}".format(desch_service.name))

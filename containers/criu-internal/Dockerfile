@@ -35,6 +35,13 @@ RUN apt-get install -y --no-install-recommends \
     wayland-protocols && \
     rm -rf /var/lib/apt/lists/*
 
+# Install libstrangle 
+RUN git clone https://github.com/ErwinRussel/libstrangle.git /opt/strangle && \
+    cd /opt/strangle && \
+    make && \
+    make install && \
+    pip3 install -r promclient/requirements.txt
+
 RUN git clone https://github.com/ErwinRussel/atlas.git /atlas && \
     cd /atlas/test/Glxgears/dev && \
     make clean && \
@@ -43,4 +50,4 @@ RUN git clone https://github.com/ErwinRussel/atlas.git /atlas && \
 
 WORKDIR /atlas
 
-CMD bash -c "./run.sh"
+CMD bash -c "sh run.sh"

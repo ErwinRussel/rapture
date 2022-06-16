@@ -6,10 +6,11 @@ import json
 if __name__ == '__main__':
     # todo: set this with argv
     scheduler = Scheduler(StrategyEnum.rapture)
-
+    alpha = 0.7
+    migrater = Migrater(scheduler)
 
     #todo: load game container db
-    game_name = "Viking_Village_Linux"
+    game_name = "atlasgears"
     game_spec = scheduler.get_game_spec(game_name)
 
     print("-- Cleaning up before test --")
@@ -31,7 +32,7 @@ if __name__ == '__main__':
         desired_instances = otest[k]['desired_instances']
         while((time.time() - start_time) < t_next):
             # added, check migration
-            check_migrate()
+            migrater.check_migrate()
             time.sleep(1)
 
         curr_instances = scheduler.get_current_instances()

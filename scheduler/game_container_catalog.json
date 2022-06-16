@@ -1,12 +1,21 @@
 [
   {
-    "name": "ping",
-    "image": "alpine",
-    "command": ["ping", "docker.com"],
+    "name": "atlasgears",
+    "image": "erwinrussel/atlasgears:nvgl",
+    "thumbnail": "https://via.placeholder.com/150",
+    "env": ["DISPLAY=:0","FPS=30","RESOLUTION=1920x1080","SLEEP=0"],
     "requirements": {
-      "cpu_req": 0,
-      "mem_req": 0
-    }
+      "cpu_req": 1000000000,
+      "mem_req": 500000000,
+      "vmem_req": 1500000000,
+      "fps_req": 30,
+      "frametime_req": 300000000,
+      "resolution_req": "1920x1080"
+    },
+    "generic_resources": {
+      "gpu": 1
+    },
+    "mounts": ["/tmp/.X11-unix:/tmp/.X11-unix:rw"]
   },
   {
     "name": "Viking_Village_Linux",
@@ -29,7 +38,10 @@
     "generic_resources": {
       "gpu": 1
     },
-    "mounts": ["/tmp/.X11-unix:/tmp/.X11-unix:rw"]
+    "mounts": [
+      "/tmp/.X11-unix:/tmp/.X11-unix:rw",
+      "/atlas/checkpoints:/home/erwin_erwinrussel_com/checkpoints:rw"
+    ]
   },
   {
     "name": "Viking_Village_DXVK",
