@@ -84,8 +84,9 @@ class Migrater:
     def schedulerestore(self, game_spec):
         # todo: add env variables for
         envir = ["ATL_RESTORE=1"]
-        print("Restoring service: {}".format(service.name))
+        # print("Restoring service: {}".format(service.name))
         name = game_spec['name']
+        print("Restoring service: {}".format(name))
         image = game_spec['image']
         envir.append(game_spec['env'])
         cpu_req = game_spec['requirements']['cpu_req']
