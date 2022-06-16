@@ -4,7 +4,7 @@ client = docker.from_env()
 
 services = client.services.list(filters=dict(label="GAME"))
 
-service = service[0]
+service = services[0]
 
 print(service.attrs)
 
