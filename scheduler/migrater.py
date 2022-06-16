@@ -66,7 +66,7 @@ class Migrater:
 
     def check_migrate(self):
         utl_score = self.get_util_score()
-        print("Util score: {}".format(utl_score))
+        # print("Util score: {}".format(utl_score))
         if utl_score < self.alpha:
             evac_node = self.get_evac_node()
             self.migrate(evac_node)
@@ -78,7 +78,7 @@ class Migrater:
 
         for service in evac_services:
             self.deschedulecheckpoint(service)
-            game_spec = self.scheduler.get_game_spec("atlasgears")
+            game_spec = self.scheduler.get_game_spec("Viking_Village_Linux")
             self.schedulerestore(game_spec)
 
     def schedulerestore(self, game_spec):
