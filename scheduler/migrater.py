@@ -78,11 +78,12 @@ class Migrater:
 
         for service in evac_services:
             self.deschedulecheckpoint(service)
-            self.schedulerestore(service)
+            game_spec = self.scheduler.get_game_spec("Viking_Village_Linux")
+            self.schedulerestore(game_spec)
 
-    def schedulerestore(self, service):
+    def schedulerestore(self, game_spec):
         # todo: add env variables for
-        # envir = ["ATL_RESTORE=1"]
+        envir = ["ATL_RESTORE=1"]
         print("Restoring service: {}".format(service.name))
         name = game_spec['name']
         image = game_spec['image']
