@@ -61,7 +61,9 @@ class Migrater:
         return sort4[0]['name']
 
     def check_migrate(self):
-        if self.get_util_score() < self.alpha:
+        utl_score = self.get_util_score()
+        print("Util score: {}".format(utl_score))
+        if utl_score < self.alpha:
             evac_node = self.get_evac_node()
             self.migrate(evac_node)
 
