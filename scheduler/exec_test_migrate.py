@@ -7,7 +7,7 @@ if __name__ == '__main__':
     # todo: set this with argv
     scheduler = Scheduler(StrategyEnum.rapture)
     alpha = 0.7
-    migrater = Migrater(scheduler)
+    migrater = Migrater(scheduler, alpha)
 
     #todo: load game container db
     game_name = "atlasgears"
@@ -17,7 +17,7 @@ if __name__ == '__main__':
     scheduler.cleanup_handler()
 
     otest = []
-    with open('test_random_1_9.json', 'r') as j:
+    with open('test_sine_0_9.json', 'r') as j:
         test = json.loads(j.read())
         otest = sorted(test, key = lambda i: i['time'])
 
