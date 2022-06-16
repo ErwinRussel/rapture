@@ -1,0 +1,8 @@
+sudo docker run --privileged --gpus all -ti --rm -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix erwinrussel/atlasgears:nvgl
+
+sudo docker run --privileged --gpus all -ti --rm -e DISPLAY \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -v /home/erwin_erwinrussel_com/checkpoints:/atlas/checkpoints \
+    erwinrussel/atlasgears:nvgl
+
+sudo docker exec -it fa777ca4793e sh checkpoint.sh

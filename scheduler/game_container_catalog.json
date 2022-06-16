@@ -17,7 +17,7 @@
     },
     "mounts": [
       "/tmp/.X11-unix:/tmp/.X11-unix:rw",
-      "/checkpoints:/home/erwin_erwinrussel_com/checkpoints:rw"]
+      "/home/erwin_erwinrussel_com/checkpoints:/atlas/checkpoints:rw"]
   },
   {
     "name": "Viking_Village_Linux",
