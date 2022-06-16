@@ -21,15 +21,14 @@ class Migrater:
             score = max(score, (node_dict[node]['vmem_total'] - node_dict[node]['vmem_available']) / node_dict[node]['vmem_total'])
             score = max(score, (node_dict[node]['ftime_total'] - node_dict[node]['ftime_available']) / node_dict[node]['ftime_total'])
             # If score is 0, all is available, the node is not utilized.
-            print(node)
-            print(score)
             if score == 0:
                 continue
-
+            if score > 0.6:
+                continue
+                
             score_list.append(score)
 
         # Return 1 if only one node
-        print(score_list)
         if len(score_list) <= 1:
             return 1
 
@@ -73,7 +72,7 @@ class Migrater:
     # todo: migrating sequence
     def migrate(self, evac_node):
         # use that dockerNodePs functionn to get these serices
-        evac_services = self.scheduler.strategies.dockerNodePs(self, evac_node)
+        evac_services = self.scheduler.strategies.dockerNodePs(evac_node)
 
         for service in evac_services:
             self.deschedulecheckpoint(service)
