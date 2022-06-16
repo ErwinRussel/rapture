@@ -14,7 +14,7 @@ def scrape_data(prometheus_host_ip, test, strategy):
     metric_query_dict = {
         "FPS_cont": "fps",
         "Num_utilized_nodes": "count(sum by(instance) (nvidia_smi_memory_used_bytes/nvidia_smi_memory_total_bytes) > 0.14) OR on() vector(0)",
-        "Num_game_instances_node": "count by(instance) (container_tasks_state{image=\"erwinrussel/atlasgears:nvgl\", state=\"running\"})",
+        "Num_game_instances_node": "count by(instance) (container_tasks_state{image=\"erwinrussel/vulkanviking:experiment\", state=\"running\"})",
         "Num_violating_cont_node": "count by(hostname) (fps < 25)",
         "CPU_utl_node": "sum by(instance) (rate(node_cpu_seconds_total{mode!=\"idle\"}[1m]))/4",
         "RAM_utl_node": "sum by(instance) (node_memory_Active_bytes/node_memory_MemTotal_bytes)",
