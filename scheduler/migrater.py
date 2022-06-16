@@ -23,7 +23,7 @@ class Migrater:
             # If score is 0, all is available, the node is not utilized.
             print(node)
             print(score)
-            if score < 1:
+            if score == 0:
                 continue
 
             score_list.append(score)
