@@ -143,6 +143,8 @@ class Scheduler:
         print("Removing service: {}".format(desch_service.name))
         if self.strategy != StrategyEnum.spread:
             host_name = self.get_hostname_service(desch_service)
+            print(self.strategies.node_resource_dict)
+            print(host_name)
             self.remove_limitations(host_name)
         if DEBUG:
             self.print_resources()
