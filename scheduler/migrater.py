@@ -96,7 +96,7 @@ class Migrater:
         command = game_spec.get('command', '')
         mounts = game_spec['mounts']
 
-        node = self.get_node_strategy(cpu_req, mem_req, vmem_req, frametime_req)
+        node = self.scheduler.get_node_strategy(cpu_req, mem_req, vmem_req, frametime_req)
         networks = ['rapture_monitoring']
         uuid = name + shortuuid.uuid()
         endpoint_spec = docker.types.EndpointSpec()
@@ -110,7 +110,7 @@ class Migrater:
         print("Scheduling {} on node {}".format(uuid, str(node)))
         self.scheduler.add_limitations(node)
         node_constr_str = "node.hostname=={}".format(node)
-        self.client.services.create(image=image, command=command, name=uuid, env=envir, resources=cont_resources,
+        self.scheduler.client.services.create(image=image, command=command, name=uuid, env=envir, resources=cont_resources,
                                     mounts=mounts, constraints=[gpu_constr_str, node_constr_str],
                                     labels={"GAME": "1"}, endpoint_spec=endpoint_spec, networks=networks)
 
