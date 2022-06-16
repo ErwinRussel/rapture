@@ -21,6 +21,8 @@ class Migrater:
             score = max(score, (node_dict[node]['vmem_total'] - node_dict[node]['vmem_available']) / node_dict[node]['vmem_total'])
             score = max(score, (node_dict[node]['ftime_total'] - node_dict[node]['ftime_available']) / node_dict[node]['ftime_total'])
             # If score is 0, all is available, the node is not utilized.
+            print(node)
+            print(score)
             if score < 1:
                 continue
 
