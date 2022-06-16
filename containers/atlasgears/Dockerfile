@@ -75,4 +75,5 @@ RUN echo "rebuild3" && \
 
 WORKDIR /atlas
 
-CMD sh run.sh 
+CMD nohup bash -c "python3 /opt/strangle/promclient/promclient.py &" && \
+    sh run.sh 

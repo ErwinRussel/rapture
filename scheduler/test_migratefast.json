@@ -1,0 +1,30 @@
+[
+    {
+        "time": 0,
+        "desired_instances": 6
+    },
+    {
+        "time": 20,
+        "desired_instances": 3
+    },
+    {
+        "time": 40,
+        "desired_instances": 4
+    },
+    {
+        "time": 60,
+        "desired_instances": 2
+    },
+    {
+        "time": 80,
+        "desired_instances": 6
+    },
+    {
+        "time": 100,
+        "desired_instances": 2
+    },
+    {
+        "time": 120,
+        "desired_instances": 0
+    }
+]
