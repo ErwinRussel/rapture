@@ -22,9 +22,9 @@ class Migrater:
             score = max(score, (node_dict[node]['ftime_total'] - node_dict[node]['ftime_available']) / node_dict[node]['ftime_total'])
             # If score is 0, all is available, the node is not utilized.
             if score == 0:
-                continue
-            if score > 0.7:
-                continue
+                score = 0.9
+            # if score > 0.7:
+            #     continue
 
             score_list.append(score)
 
