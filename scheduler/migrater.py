@@ -74,7 +74,7 @@ class Migrater:
     # todo: migrating sequence
     def migrate(self, evac_node):
         # use that dockerNodePs functionn to get these serices
-        evac_services = self.scheduler.strategies.dockerNodePs(evac_node)
+        evac_services = self.scheduler.strategies.dockerGamePs(evac_node)
 
         for service in evac_services:
             self.deschedulecheckpoint(service)
@@ -116,7 +116,6 @@ class Migrater:
 
     def deschedulecheckpoint(self, desch_service):
         # todo: add exec command to checkpoint and write to file
-        print("CHECKPOINTING NOT IMPLEMENTED")
         # print("Checkpointing service: {}".format(desch_service.name))
         # container = None
         # command = ['sh checkpoint.sh']

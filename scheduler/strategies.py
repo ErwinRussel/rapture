@@ -13,6 +13,9 @@ class Strategies:
     def dockerNodePs(self, machine_name):
         return [s for s in self.client.services.list() for _ in s.tasks({'node': machine_name, 'desired-state': 'Running'})]
 
+    def dockerGamePs(self, machine_name):
+        return [s for s in self.client.services.list(filters=dict(label="GAME")) for _ in s.tasks({'node': machine_name, 'desired-state': 'Running'})]
+
     def get_node_resource_dict(self):
         node_dict = {}
         nodes = self.client.nodes.list(filters={'role': 'worker'})
