@@ -79,38 +79,38 @@ class Migrater:
         for service in evac_services:
             self.deschedulecheckpoint(service)
             game_spec = self.scheduler.get_game_spec("Viking_Village_Linux")
-            self.schedulerestore(game_spec)
+            self.scheduler.schedule_game(game_spec)
 
-    def schedulerestore(self, game_spec):
-        # print("Restoring service: {}".format(service.name))
-        name = game_spec['name']
-        print("Restoring service: {}".format(name))
-        image = game_spec['image']
-        envir = game_spec['env'].append("ATL_RESTORE=1")
-        cpu_req = game_spec['requirements']['cpu_req']
-        mem_req = game_spec['requirements']['mem_req']
-        vmem_req = game_spec['requirements']['vmem_req']
-        frametime_req = game_spec['requirements']['frametime_req']
-        command = ['bash -c "run.sh"']
-        mounts = game_spec['mounts']
-
-        node = self.scheduler.get_node_strategy(cpu_req, mem_req, vmem_req, frametime_req)
-        networks = ['rapture_monitoring']
-        uuid = name + shortuuid.uuid()
-        endpoint_spec = docker.types.EndpointSpec()
-        gpu_constr_str = "node.labels.gpu-node == 1"
-        cont_resources = docker.types.Resources(cpu_reservation=cpu_req, cpu_limit=cpu_req, mem_reservation=mem_req,
-                                                mem_limit=mem_req)
-        if node is None:
-            print("No node to schedule")
-            return
-
-        print("Scheduling {} on node {}".format(uuid, str(node)))
-        self.scheduler.add_limitations(node)
-        node_constr_str = "node.hostname=={}".format(node)
-        self.scheduler.client.services.create(image=image, command=command, name=uuid, env=envir, resources=cont_resources,
-                                    mounts=mounts, constraints=[gpu_constr_str, node_constr_str],
-                                    labels={"GAME": "1"}, endpoint_spec=endpoint_spec, networks=networks)
+    # def schedulerestore(self, game_spec):
+    #     # print("Restoring service: {}".format(service.name))
+    #     name = game_spec['name']
+    #     print("Restoring service: {}".format(name))
+    #     image = game_spec['image']
+    #     envir = game_spec['env'].append("ATL_RESTORE=1")
+    #     cpu_req = game_spec['requirements']['cpu_req']
+    #     mem_req = game_spec['requirements']['mem_req']
+    #     vmem_req = game_spec['requirements']['vmem_req']
+    #     frametime_req = game_spec['requirements']['frametime_req']
+    #     command = ['bash -c "run.sh"']
+    #     mounts = game_spec['mounts']
+    #
+    #     node = self.scheduler.get_node_strategy(cpu_req, mem_req, vmem_req, frametime_req)
+    #     networks = ['rapture_monitoring']
+    #     uuid = name + shortuuid.uuid()
+    #     endpoint_spec = docker.types.EndpointSpec()
+    #     gpu_constr_str = "node.labels.gpu-node == 1"
+    #     cont_resources = docker.types.Resources(cpu_reservation=cpu_req, cpu_limit=cpu_req, mem_reservation=mem_req,
+    #                                             mem_limit=mem_req)
+    #     if node is None:
+    #         print("No node to schedule")
+    #         return
+    #
+    #     print("Scheduling {} on node {}".format(uuid, str(node)))
+    #     self.scheduler.add_limitations(node)
+    #     node_constr_str = "node.hostname=={}".format(node)
+    #     self.scheduler.client.services.create(image=image, command=command, name=uuid, env=envir, resources=cont_resources,
+    #                                 mounts=mounts, constraints=[gpu_constr_str, node_constr_str],
+    #                                 labels={"GAME": "1"}, endpoint_spec=endpoint_spec, networks=networks)
 
 
 
