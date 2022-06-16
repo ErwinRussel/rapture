@@ -29,6 +29,7 @@ class Migrater:
             score_list.append(score)
 
         # Return 1 if only one node
+        print(score_list)
         if len(score_list) <= 1:
             return 1
 
