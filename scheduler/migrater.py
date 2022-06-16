@@ -78,7 +78,7 @@ class Migrater:
 
         for service in evac_services:
             self.deschedulecheckpoint(service)
-            game_spec = self.scheduler.get_game_spec("Viking_Village_Linux")
+            game_spec = self.scheduler.get_game_spec("atlasgears")
             self.schedulerestore(game_spec)
 
     def schedulerestore(self, game_spec):
