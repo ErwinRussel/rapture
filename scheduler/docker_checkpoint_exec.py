@@ -6,7 +6,7 @@ services = client.services.list(filters=dict(label="GAME"))
 
 service = services[0]
 
-print(service.attrs)
+print(service.tasks)
 
 container = client.containers.get(cont_id)
 
