@@ -66,7 +66,7 @@ RUN git clone https://github.com/ErwinRussel/libstrangle.git /opt/strangle && \
     pip3 install -r promclient/requirements.txt
 
 # atlas
-RUN echo "rebuild8" && \
+RUN echo "rebuild9" && \
     git clone https://github.com/ErwinRussel/atlas.git /atlas && \
     cd /atlas/test/Glxgears/dev && \
     make clean && \
