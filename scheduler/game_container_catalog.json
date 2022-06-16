@@ -15,7 +15,9 @@
     "generic_resources": {
       "gpu": 1
     },
-    "mounts": ["/tmp/.X11-unix:/tmp/.X11-unix:rw"]
+    "mounts": [
+      "/tmp/.X11-unix:/tmp/.X11-unix:rw",
+      "/atlas/checkpoints:/home/erwin_erwinrussel_com/checkpoints:rw"]
   },
   {
     "name": "Viking_Village_Linux",
@@ -38,10 +40,7 @@
     "generic_resources": {
       "gpu": 1
     },
-    "mounts": [
-      "/tmp/.X11-unix:/tmp/.X11-unix:rw",
-      "/atlas/checkpoints:/home/erwin_erwinrussel_com/checkpoints:rw"
-    ]
+    "mounts": ["/tmp/.X11-unix:/tmp/.X11-unix:rw"]
   },
   {
     "name": "Viking_Village_DXVK",

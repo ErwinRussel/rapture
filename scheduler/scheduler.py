@@ -143,7 +143,6 @@ class Scheduler:
         print("Removing service: {}".format(desch_service.name))
         if self.strategy != StrategyEnum.spread:
             host_name = self.get_hostname_service(desch_service)
-            print(host_name)
             self.remove_limitations(host_name)
         if DEBUG:
             self.print_resources()
@@ -158,7 +157,6 @@ class Scheduler:
 
     # todo: change this to get from the game DB
     def remove_limitations(self, host_name):
-        print(host_name)
         self.strategies.node_resource_dict[host_name]['cpu_available'] += 1000000000
         self.strategies.node_resource_dict[host_name]['mem_available'] += 500000000
         self.strategies.node_resource_dict[host_name]['vmem_available'] += 1500000000
