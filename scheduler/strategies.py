@@ -11,7 +11,7 @@ class Strategies:
         self.node_resource_dict = self.get_node_resource_dict()
 
     def dockerNodePs(self, machine_name):
-        return [s.attrs['Spec']['Name'] for s in self.client.services.list() for _ in s.tasks({'node': machine_name, 'desired-state': 'Running'})]
+        return [s for s in self.client.services.list() for _ in s.tasks({'node': machine_name, 'desired-state': 'Running'})]
 
     def get_node_resource_dict(self):
         node_dict = {}

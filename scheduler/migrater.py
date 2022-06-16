@@ -25,12 +25,14 @@ class Migrater:
                 continue
             if score > 0.6:
                 continue
-                
+
             score_list.append(score)
 
         # Return 1 if only one node
         if len(score_list) <= 1:
             return 1
+        else:
+            print(score_list)
 
         return sum(score_list) / len(score_list)
 
