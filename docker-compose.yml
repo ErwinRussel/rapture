@@ -8,11 +8,11 @@ services:
     RESOLUTION: 1920x1080
     SLEEP: 0
     DISPLAY: :0
-  deploy:
-    resources:
-      reservations:
-        devices:
-          - driver: nvidia
-            count: 1
-            capabilities: [gpu]
+  #deploy:
+  #  resources:
+  #    reservations:
+  #      devices:
+  #        - driver: nvidia
+  #          count: 1
+  #          capabilities: [gpu]
     
