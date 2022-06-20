@@ -3,13 +3,13 @@ version: "3.7"
 services:
   test:
     image: erwinrussel/vulkanviking:hdstrangle
-  environment:
-    FPS: 10
-    RESOLUTION: 1920x1080
-    SLEEP: 0
-    DISPLAY: :0
-  volumes:
-    - /tmp/.X11-unix:/tmp/.X11-unix
+    environment:
+      FPS: 10
+      RESOLUTION: 1920x1080
+      SLEEP: 0
+      DISPLAY: :0
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
   #deploy:
   #  resources:
   #    reservations:
