@@ -9,7 +9,7 @@ services:
     SLEEP: 0
     DISPLAY: :0
   volumes:
-    - "/tmp/.X11-unix:/tmp/.X11-unix"
+    - /tmp/.X11-unix:/tmp/.X11-unix
   #deploy:
   #  resources:
   #    reservations:
