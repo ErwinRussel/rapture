@@ -14,7 +14,8 @@ def exec_command(command, container, node):
 
     node_constr_str = "node.hostname=={}".format(node)
     restart_policy = docker.types.RestartPolicy(condition="none")
-    client.services.create(image=image, command=command, name=uuid, restart_policy=restart_policy, constraints=[node_constr_str], mounts=mounts, labels={"CC": "1"}, networks=networks)
+    ephemeral_service = client.services.create(image=image, command=command, name=uuid, restart_policy=restart_policy, constraints=[node_constr_str], mounts=mounts, labels={"CC": "1"}, networks=networks)
+    ephemeral_service.remove()
 
 
 command = "docker run -d alpine ping 8.8.8.8"
