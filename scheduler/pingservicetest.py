@@ -1,0 +1,24 @@
+import docker
+import shortuuid
+
+client = docker.from_env()
+
+def exec_command(command, container, node):
+    name = "raptureCC"
+    uuid = name + shortuuid.uuid()
+    image = "erwinrussel/rapturecc:latest"
+    mounts = ['/var/run/docker.sock:/var/run/docker.sock:rw']
+    networks = ['rapture_monitoring']
+
+    print("{}: Running {} on container {}".format(node, command, container))
+
+    node_constr_str = "node.hostname=={}".format(node)
+    client.services.create(image=image, command=command, name=uuid, constraints=[node_constr_str], mounts=mounts, labels={"CC": "1"}, networks=networks)
+
+
+command = "docker run --rm -it alpine ping 8.8.8.8"
+container = None
+# command = "docker exec {} sh checkpoint.sh".format(container)
+node = "rapture-gpu-node-1"
+
+exec_command(command, container, node)
