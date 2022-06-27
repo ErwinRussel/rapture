@@ -17,7 +17,7 @@ def exec_command(command, container, node):
     client.services.create(image=image, command=command, name=uuid, restart_policy=restart_policy, constraints=[node_constr_str], mounts=mounts, labels={"CC": "1"}, networks=networks)
 
 
-command = "docker run alpine ping 8.8.8.8"
+command = "docker run -d alpine ping 8.8.8.8"
 container = None
 # command = "docker exec {} sh checkpoint.sh".format(container)
 node = "rapture-gpu-node-1"
