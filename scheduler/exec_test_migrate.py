@@ -6,7 +6,7 @@ import json
 if __name__ == '__main__':
     # todo: set this with argv
     scheduler = Scheduler(StrategyEnum.rapture)
-    alpha = 0.6
+    alpha = 0.7
     migrater = Migrater(scheduler, alpha)
 
     #todo: load game container db
