@@ -23,9 +23,9 @@ def exec_command(command, container, node):
     print("Service removed")
 
 
-command = "docker run -d --rm alpine ping -c 5 8.8.8.8"
+# command = "docker run -d --rm alpine ping -c 5 8.8.8.8"
 container = None
-# command = "docker exec {} sh checkpoint.sh".format(container)
+command = "docker exec {} sh checkpoint.sh".format(container)
 node = "rapture-gpu-node-1"
 
 exec_command(command, container, node)
