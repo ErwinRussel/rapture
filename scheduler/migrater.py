@@ -80,7 +80,8 @@ class Migrater:
         for service in evac_services:
             self.deschedulecheckpoint(service)
             game_spec = self.scheduler.get_game_spec("atlasgears")
-            self.scheduler.schedule_game(game_spec)
+            # self.scheduler.schedule_game(game_spec)
+            self.schedulerestore(game_spec)
 
     def schedulerestore(self, game_spec):
         # print("Restoring service: {}".format(service.name))
