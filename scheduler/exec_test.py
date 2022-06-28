@@ -7,14 +7,14 @@ if __name__ == '__main__':
     scheduler = Scheduler(StrategyEnum.spread)
 
     #todo: load game container db
-    game_name = "Viking_Village_Linux"
+    game_name = "atlasgears"
     game_spec = scheduler.get_game_spec(game_name)
 
     print("-- Cleaning up before test --")
     scheduler.cleanup_handler()
 
     otest = []
-    with open('test_random_1_6.json', 'r') as j:
+    with open('test_random_1_9.json', 'r') as j:
         test = json.loads(j.read())
         otest = sorted(test, key = lambda i: i['time'])
 
