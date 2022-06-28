@@ -79,14 +79,15 @@ class Migrater:
 
         for service in evac_services:
             self.deschedulecheckpoint(service)
-            game_spec = self.scheduler.get_game_spec("Viking_Village_Linux")
+            game_spec = self.scheduler.get_game_spec("atlasgears")
             self.scheduler.schedule_game(game_spec)
 
     def schedulerestore(self, game_spec):
         # print("Restoring service: {}".format(service.name))
         name = game_spec['name']
         print("Restoring service: {}".format(name))
-        image = game_spec['image']
+        # image = game_spec['image']
+        image = "erwinrussel/atlasgears:nvglrestore" # todo: for testing hardcode a restore image
         envir = game_spec['env'].append("ATL_RESTORE=1")
         cpu_req = game_spec['requirements']['cpu_req']
         mem_req = game_spec['requirements']['mem_req']
