@@ -120,9 +120,10 @@ class Migrater:
         host_name = self.scheduler.get_hostname_service(desch_service)
 
         # todo: add container
-        container = None
+        container_full = desch_service.tasks()[0]['Status']['ContainerStatus']['ContainerID']
+        container_trunc = container_full[:12]
         command = ['sh checkpoint.sh']
-        self.exec_command(command, container, host_name)
+        self.exec_command(command, container_trunc, host_name)
 
         # todo: remove
         print("Evacuating service: {}".format(desch_service.name))

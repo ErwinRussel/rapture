@@ -13,9 +13,9 @@ def scrape_data(prometheus_host_ip, test, strategy):
 
     metric_query_dict = {
         "FPS_cont": "fps",
-        "Num_utilized_nodes": "count(sum by(instance) (nvidia_smi_memory_used_bytes/nvidia_smi_memory_total_bytes) > 0.14) OR on() vector(0)",
-        "Num_game_instances_node": "count by(instance) (container_tasks_state{image=\"erwinrussel/vulkanviking:experiment\", state=\"running\"})",
-        "Num_violating_cont_node": "count by(hostname) (fps < 25)",
+        "Num_utilized_nodes": "count(sum by(instance) (nvidia_smi_memory_used_bytes/nvidia_smi_memory_total_bytes) > 0.0028) OR on() vector(0)",
+        "Num_game_instances_node": "count by(instance) (container_tasks_state{image=\"erwinrussel/atlasgears:nvgl\", state=\"running\"})",
+        "Num_violating_cont_node": "count by(hostname) (fps < 2000)",
         "CPU_utl_node": "sum by(instance) (rate(node_cpu_seconds_total{mode!=\"idle\"}[1m]))/4",
         "RAM_utl_node": "sum by(instance) (node_memory_Active_bytes/node_memory_MemTotal_bytes)",
         "VRAM_utl_node": "sum by(instance) (nvidia_smi_memory_used_bytes/nvidia_smi_memory_total_bytes)",
@@ -38,11 +38,11 @@ def scrape_data(prometheus_host_ip, test, strategy):
 
         # metric_df = MetricRangeDataFrame(metric_data)
 
-        with open("experiment_data/migrate_tests/" + test + "/" + strategy + "/" + metric + ".json", "w") as f:
+        with open("experiment_data/tests-tue-28-june/" + test + "/" + strategy + "/" + metric + ".json", "w") as f:
             json.dump(metric_data, f)
             # f.write(str(metric_data))
 
         # metric_df.to_csv("experiment_data/" + test + "/" + metric + ".csv")
 
 
-scrape_data("34.72.52.139", "random_1_9", "alpha6")
+scrape_data("35.193.2.99", "random_1_9", "alpha6")
