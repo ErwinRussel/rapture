@@ -108,11 +108,14 @@ class Migrater:
             print("No node to schedule")
             return
 
+        # permissions
+        cap_add = ['CAP_SYS_ADMIN','CAP_NET_ADMIN']
+
         print("Scheduling {} on node {}".format(uuid, str(node)))
         self.scheduler.add_limitations(node)
         node_constr_str = "node.hostname=={}".format(node)
         self.scheduler.client.services.create(image=image, command=command, name=uuid, env=envir, resources=cont_resources,
-                                    mounts=mounts, constraints=[gpu_constr_str, node_constr_str],
+                                    mounts=mounts, constraints=[gpu_constr_str, node_constr_str], cap_add=cap_add,
                                     labels={"GAME": "1"}, endpoint_spec=endpoint_spec, networks=networks)
 
 
