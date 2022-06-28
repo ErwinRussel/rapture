@@ -101,7 +101,7 @@ class Scheduler:
         endpoint_spec = docker.types.EndpointSpec()
         gpu_constr_str = "node.labels.gpu-node == 1"
         cont_resources = docker.types.Resources(cpu_reservation=cpu_req, cpu_limit=cpu_req, mem_reservation=mem_req, mem_limit=mem_req)
-        cap_add = ['CAP_SYS_ADMIN','CAP_NET_ADMIN']
+        cap_add = ['CAP_SYS_ADMIN', 'CAP_NET_ADMIN']
         if (self.strategy != StrategyEnum.spread):
             if node is None:
                 print("No node to schedule")
