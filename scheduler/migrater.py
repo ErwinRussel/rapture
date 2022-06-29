@@ -94,7 +94,7 @@ class Migrater:
         mem_req = game_spec['requirements']['mem_req']
         vmem_req = game_spec['requirements']['vmem_req']
         frametime_req = game_spec['requirements']['frametime_req']
-        command = ['bash -c "run.sh"']
+        command = game_spec.get('command', '')
         mounts = game_spec['mounts']
 
         node = self.scheduler.get_node_strategy(cpu_req, mem_req, vmem_req, frametime_req)
