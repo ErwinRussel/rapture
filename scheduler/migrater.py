@@ -87,8 +87,8 @@ class Migrater:
         # print("Restoring service: {}".format(service.name))
         name = game_spec['name']
         print("Restoring service: {}".format(name))
-        # image = game_spec['image']
-        image = "erwinrussel/atlasgears:nvglrestore" # todo: for testing hardcode a restore image
+        image = game_spec['image']
+        # image = "erwinrussel/atlasgears:nvglrestore" # todo: for testing hardcode a restore image
         envir = game_spec['env'] #.append("ATL_RESTORE=1")
         cpu_req = game_spec['requirements']['cpu_req']
         mem_req = game_spec['requirements']['mem_req']
@@ -99,7 +99,7 @@ class Migrater:
 
         node = self.scheduler.get_node_strategy(cpu_req, mem_req, vmem_req, frametime_req)
         networks = ['rapture_monitoring']
-        uuid = name + shortuuid.uuid()
+        uuid = name + "_RESTORED_" + shortuuid.uuid()
         endpoint_spec = docker.types.EndpointSpec()
         gpu_constr_str = "node.labels.gpu-node == 1"
         cont_resources = docker.types.Resources(cpu_reservation=cpu_req, cpu_limit=cpu_req, mem_reservation=mem_req,
