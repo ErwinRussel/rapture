@@ -87,8 +87,8 @@ class Migrater:
         # print("Restoring service: {}".format(service.name))
         name = game_spec['name']
         print("Restoring service: {}".format(name))
-        image = game_spec['image']
-        # image = "erwinrussel/atlasgears:nvglrestore" # todo: for testing hardcode a restore image
+        # image = game_spec['image']
+        image = "erwinrussel/atlasgears:nvglrestore" # todo: for testing hardcode a restore image
         envir = game_spec['env'] #.append("ATL_RESTORE=1")
         cpu_req = game_spec['requirements']['cpu_req']
         mem_req = game_spec['requirements']['mem_req']
