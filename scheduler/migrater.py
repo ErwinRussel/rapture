@@ -129,8 +129,8 @@ class Migrater:
         # todo: add container
         container_full = desch_service.tasks()[0]['Status']['ContainerStatus']['ContainerID']
         container_trunc = container_full[:12]
-        command = ['sh checkpoint.sh']
-        self.exec_command(command, container_trunc, host_name)
+        command = 'docker exec --privileged {} sh checkpoint.sh'.format(container_trunc)
+        self.exec_command([command], container_trunc, host_name)
 
         # todo: remove
         print("Evacuating service: {}".format(desch_service.name))
