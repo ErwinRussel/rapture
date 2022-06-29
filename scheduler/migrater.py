@@ -109,7 +109,7 @@ class Migrater:
             return
 
         # permissions
-        cap_add = ['CAP_SYS_ADMIN', 'CAP_NET_ADMIN']
+        cap_add = ['ALL']
 
         print("Scheduling {} on node {}".format(uuid, str(node)))
         self.scheduler.add_limitations(node)

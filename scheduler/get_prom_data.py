@@ -46,4 +46,4 @@ def scrape_data(prometheus_host_ip, test, strategy):
         # metric_df.to_csv("experiment_data/" + test + "/" + metric + ".csv")
 
 
-scrape_data("35.193.2.99", "random_1_9", "alpha7")
+scrape_data("34.123.71.136", "random_1_9", "alpha7")
