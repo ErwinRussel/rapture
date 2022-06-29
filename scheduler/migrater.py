@@ -89,7 +89,7 @@ class Migrater:
         print("Restoring service: {}".format(name))
         # image = game_spec['image']
         image = "erwinrussel/atlasgears:nvglrestore" # todo: for testing hardcode a restore image
-        envir = game_spec['env'] #.append("ATL_RESTORE=1")
+        envir = game_spec['env'].append("ATL_RESTORE=1")
         cpu_req = game_spec['requirements']['cpu_req']
         mem_req = game_spec['requirements']['mem_req']
         vmem_req = game_spec['requirements']['vmem_req']
@@ -148,12 +148,12 @@ class Migrater:
 
         node_constr_str = "node.hostname=={}".format(node)
         restart_policy = docker.types.RestartPolicy(condition="none")
-        time.sleep(10)
+        # time.sleep(10)
         ephemeral_service = self.scheduler.client.services.create(image=image, command=command, name=uuid,
                                                    restart_policy=restart_policy, constraints=[node_constr_str],
                                                    mounts=mounts, labels={"CC": "1"}, networks=networks)
         print("Executed")
-        time.sleep(5)
+        time.sleep(3)
         print("Removing Service")
         ephemeral_service.remove()
         print("Service removed")
