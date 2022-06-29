@@ -134,7 +134,7 @@ class Migrater:
         print("Evacuating service: {}".format(desch_service.name))
         self.scheduler.remove_limitations(host_name)
 
-        self.print_resources()
+        self.scheduler.print_resources()
         desch_service.remove()
 
     def exec_command(self, command, container, node):
