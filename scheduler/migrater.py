@@ -133,8 +133,8 @@ class Migrater:
         # todo: remove
         print("Evacuating service: {}".format(desch_service.name))
         self.scheduler.remove_limitations(host_name)
-        # if DEBUG:
-        #     self.print_resources()
+
+        self.print_resources()
         desch_service.remove()
 
     def exec_command(self, command, container, node):
@@ -153,7 +153,7 @@ class Migrater:
                                                    restart_policy=restart_policy, constraints=[node_constr_str],
                                                    mounts=mounts, labels={"CC": "1"}, networks=networks)
         print("Executed")
-        time.sleep(10)
+        time.sleep(5)
         print("Removing Service")
         ephemeral_service.remove()
         print("Service removed")
