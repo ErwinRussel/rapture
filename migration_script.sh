@@ -25,7 +25,7 @@ docker exec $CID sh checkpoint.sh
 
 
 echo "Restoring"
-ssh -i /home/erwin_erwinrussel_com/.ssh/id_rsa erwin_erwinrussel_com@10.148.0.4 sudo docker run --gpus all -ti -d --privileged --rm -e DISPLAY \
+ssh -i /home/erwin_erwinrussel_com/.ssh/id_rsa erwin_erwinrussel_com@10.148.0.4 sudo docker run --gpus all --privileged --rm -e DISPLAY \
 -e ATL_RESTORE=1 \
 -v /tmp/.X11-unix:/tmp/.X11-unix \
 -v /home/erwin_erwinrussel_com/checkpoints:/atlas/checkpoints:rw \
