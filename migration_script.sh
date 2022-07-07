@@ -1,14 +1,14 @@
 USERNAME=erwin_erwinrussel_com
 HOST2=10.148.0.4
 
-DISPLAY=:0
+
 
 # docker run --gpus all -ti --privileged --rm -e DISPLAY \
 # -v /tmp/.X11-unix:/tmp/.X11-unix \
 # -v /home/erwin_erwinrussel_com/checkpoints:/atlas/checkpoints:rw \
 # erwinrussel/atlasgears:nvglrestore
 
-CID=$(docker run --gpus all -ti --privileged -d --rm -e DISPLAY \
+CID=$(docker run --gpus all -ti --privileged -d --rm -e DISPLAY=:0 \
 -v /tmp/.X11-unix:/tmp/.X11-unix \
 -v /home/erwin_erwinrussel_com/checkpoints:/atlas/checkpoints:rw \
 erwinrussel/atlasgears:nvglrestore)
@@ -25,13 +25,13 @@ docker exec $CID sh checkpoint.sh
 
 
 echo "Restoring"
-ssh -i /home/erwin_erwinrussel_com/.ssh/id_rsa erwin_erwinrussel_com@10.148.0.4 sudo docker run --gpus all --privileged --rm -e DISPLAY \
+sudo docker run --gpus all --privileged -d --rm -e DISPLAY=:1 \
 -e ATL_RESTORE=1 \
 -v /tmp/.X11-unix:/tmp/.X11-unix \
 -v /home/erwin_erwinrussel_com/checkpoints:/atlas/checkpoints:rw \
 erwinrussel/atlasgears:nvglrestore 
 
-docker stop $CID
+sudo docker stop $CID
 
 # sudo apt install ffmpeg
 
