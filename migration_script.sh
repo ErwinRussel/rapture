@@ -31,6 +31,8 @@ ssh -i /home/erwin_erwinrussel_com/.ssh/id_rsa erwin_erwinrussel_com@10.148.0.4 
 -v /home/erwin_erwinrussel_com/checkpoints:/atlas/checkpoints:rw \
 erwinrussel/atlasgears:nvglrestore 
 
+docker stop $CID
+
 # sudo apt install ffmpeg
 
 # ffmpeg -video_size 1920x1080 -framerate 30 -f x11grab -i :0 -pix_fmt yuv420p -vf output.mp4
