@@ -3,6 +3,11 @@ HOST2=10.128.0.58
 
 DISPLAY=:0
 
+docker run --gpus all -ti --privileged -d --rm -e DISPLAY \
+-v /tmp/.X11-unix:/tmp/.X11-unix \
+-v /home/erwin_erwinrussel_com/checkpoints:/atlas/checkpoints:rw \
+erwinrussel/atlasgears:nvglrestore
+
 CID=$(docker run --gpus all -ti --privileged -d --rm -e DISPLAY \
 -v /tmp/.X11-unix:/tmp/.X11-unix \
 -v /home/erwin_erwinrussel_com/checkpoints:/atlas/checkpoints:rw \
