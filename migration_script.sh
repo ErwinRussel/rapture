@@ -1,7 +1,7 @@
 USERNAME=erwin_erwinrussel_com
 HOST2=10.128.0.58
 
-CID=sudo docker run --gpus all -ti --privileged -d --rm -e DISPLAY \
+CID=docker run --gpus all -ti --privileged -d --rm -e DISPLAY \
 -v /tmp/.X11-unix:/tmp/.X11-unix \
 -v /home/erwin_erwinrussel_com/checkpoints:/atlas/checkpoints:rw \
 erwinrussel/atlasgears:nvgl
@@ -14,11 +14,11 @@ echo $CID
 sleep 10
 
 echo "Running Checkpoint Script"
-sudo docker exec $CID sh checkpoint.sh
+docker exec $CID sh checkpoint.sh
 
 
 echo "Restoring"
-sudo docker run --gpus all -ti --privileged --rm -e DISPLAY \
+docker run --gpus all -ti --privileged --rm -e DISPLAY \
 -e ATL_RESTORE=1 \
 -v /tmp/.X11-unix:/tmp/.X11-unix \
 -v /home/erwin_erwinrussel_com/checkpoints:/atlas/checkpoints:rw \
