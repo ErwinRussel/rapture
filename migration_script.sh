@@ -1,5 +1,5 @@
 USERNAME=erwin_erwinrussel_com
-HOST2=10.128.0.58
+HOST2=10.148.0.4
 
 DISPLAY=:0
 
@@ -25,7 +25,7 @@ docker exec $CID sh checkpoint.sh
 
 
 echo "Restoring"
-docker run --gpus all -ti --privileged --rm -e DISPLAY \
+ssh erwin_erwinrussel_com@10.148.0.4 docker run --gpus all -ti --privileged --rm -e DISPLAY \
 -e ATL_RESTORE=1 \
 -v /tmp/.X11-unix:/tmp/.X11-unix \
 -v /home/erwin_erwinrussel_com/checkpoints:/atlas/checkpoints:rw \
