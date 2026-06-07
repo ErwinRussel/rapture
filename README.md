@@ -70,7 +70,7 @@ Rapture investigates three questions:
            Gamepad input ◀── WebSocket ◀── inputserver.py ◀── Browser
 ```
 
-Each game container bundles a GPU-rendered game, a custom fork of [libstrangle](https://gitlab.com/torkel104/libstrangle) that caps FPS and pushes per-frame timing metrics, and (optionally) a CRIU installation for live checkpointing.
+Each game container bundles a GPU-rendered game, a custom fork of [libstrangle](https://github.com/ErwinRussel/libstrangle) that caps FPS and pushes per-frame timing metrics, and (optionally) a CRIU installation for live checkpointing.
 
 ---
 
@@ -164,7 +164,7 @@ A dual-port Flask + Prometheus service:
 | Port | Purpose |
 |------|---------|
 | 8000 | Prometheus `/metrics` scrape endpoint |
-| 8001 | HTTP POST `/push_metric` — receives JSON payloads from the libstrangle Prometheus client running inside each game container |
+| 8001 | HTTP POST `/push_metric` — receives JSON payloads from the [libstrangle](https://github.com/ErwinRussel/libstrangle) Prometheus client running inside each game container |
 
 Metrics exposed (labelled by `hostname` and `container_name`):
 
@@ -204,11 +204,11 @@ Browser gamepad API → WebSocket → inputserver.py → UInput → /dev/input �
 
 | Image | Base | Game | Notes |
 |-------|------|------|-------|
-| `rapturebase` | `nvidia/vulkan:1.1.121` | — | Vulkan tools, Janus WebRTC, GStreamer, libstrangle, evdev input server |
+| `rapturebase` | `nvidia/vulkan:1.1.121` | — | Vulkan tools, Janus WebRTC, GStreamer, [libstrangle](https://github.com/ErwinRussel/libstrangle), evdev input server |
 | `raptureviking` | `rapturebase` | Viking Village (Linux/Vulkan) | Full streaming stack |
-| `linux/viking` | `nvidia/vulkan:1.1.121` | Viking Village (Linux/Vulkan) | Lightweight, libstrangle + Prometheus client |
-| `dxvk/dxvkviking` | `nvidia/vulkan:1.1.121` | Viking Village (Windows/.exe) | Wine + DXVK (DirectX→Vulkan), libstrangle |
-| `atlasgears` | `nvidia/vulkan:1.1.121` | GLX gears benchmark | CRIU + custom atlas benchmark harness |
+| `linux/viking` | `nvidia/vulkan:1.1.121` | Viking Village (Linux/Vulkan) | Lightweight, [libstrangle](https://github.com/ErwinRussel/libstrangle) + Prometheus client |
+| `dxvk/dxvkviking` | `nvidia/vulkan:1.1.121` | Viking Village (Windows/.exe) | Wine + DXVK (DirectX→Vulkan), [libstrangle](https://github.com/ErwinRussel/libstrangle) |
+| `atlasgears` | `nvidia/vulkan:1.1.121` | GLX gears benchmark | CRIU + custom [atlas](https://github.com/ErwinRussel/atlas) benchmark harness |
 
 All game containers accept environment variables:
 
@@ -259,7 +259,7 @@ The thesis contribution. Extends binpack with two additional resource dimensions
 
 Candidate nodes must satisfy all four constraints. Eligible nodes are then sorted ascending by all four dimensions (frame-time as the primary sort key) and the node with the **least available resources** is chosen — i.e. the node that is most loaded but still has capacity. This minimises fragmentation while respecting QoS constraints.
 
-The frame-time budget (`ftime_available`) is intended to be driven by real-time Prometheus data from the `adjusted_sleep_time` metric exported by libstrangle (partially implemented in `rap_sched.py`).
+The frame-time budget (`ftime_available`) is intended to be driven by real-time Prometheus data from the `adjusted_sleep_time` metric exported by [libstrangle](https://github.com/ErwinRussel/libstrangle) (partially implemented in `rap_sched.py`).
 
 ---
 
